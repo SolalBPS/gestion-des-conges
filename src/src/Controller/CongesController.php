@@ -35,6 +35,7 @@ class CongesController extends AbstractController
 //            } elseif($this->congesHelper->demandeConges($form) == false) {
 //                $this->addFlash("error", "la date est pas bonne !");
 //            }
+            return $this->redirectToRoute("app_conges_demande");
         }
         return $this->render("conges/demande_conges.html.twig", ["congesForm" => $form->createView()]);
     }
