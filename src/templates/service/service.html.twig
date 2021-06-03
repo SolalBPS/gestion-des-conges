@@ -1,0 +1,61 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block title %} Services {% endblock %}
+
+{% block contentpage %}
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h5>
+                    Liste
+                </h5>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Liste des services</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a href="{{ path('app_service_ajout') }}"> <button class="btn btn-success"> Nouveau Service </button> </a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="row">
+                            <table id="example" class="display table table-striped table-bordered dataminetables">
+                                <thead style="text-align:center">
+                                <th>Nom du service</th>
+                                <th>{{ "backend.user.modifier"|trans }}</th>
+                                <th>{{ "backend.user.delete"|trans }}</th>
+                                </thead>
+                                <tbody>
+                                {% for service in services %}
+                                    <tr>
+                                        <td>{{ service.nom }}</td>
+                                        <td style="text-align:center">
+                                            <a class="btn btn-primary" href="{{ path('app_service_modif',{"id":service.id}) }}">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <a href="{{ path('app_service_suppr', {'id': service.id}) }}" class="btn btn-danger disable-btn del-link" type="submit">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

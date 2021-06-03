@@ -1,0 +1,38 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block title %} Modifier un service {% endblock %}
+
+{% block contentpage %}
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h5><a href="{{ path('app_service') }}"> Liste des services </a> >> Modifier un service </h5>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Modifier un service</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        {{ form_start(serviceForm) }}
+                        {{ form_widget(serviceForm) }}
+                        <div class="ln_solid"></div>
+                        <div class="item form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <a class="btn btn-warning" href="{{ path('app_service') }}">Annuler</a>
+                                <button type="submit" name="valider" class="btn btn-success"> Enregistrer </button>
+                            </div>
+                        </div>
+                        {{ form_end(serviceForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

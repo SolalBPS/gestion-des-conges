@@ -1,0 +1,87 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block title %} Salariés {% endblock %}
+
+{% block contentpage %}
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h5>
+                    Liste
+                </h5>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Liste des salariés</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a href="{{ path('app_salarie_ajout') }}"> <button class="btn btn-success"> Nouveau Salarié </button> </a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="row">
+                            <table id="example" class="display table table-striped table-bordered dataminetables">
+                                <thead style="text-align:center">
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>E-mail</th>
+                                <th>Téléphone</th>
+                                <th>Service</th>
+                                <th>Rôles</th>
+                                <th>Modifier</th>
+                                <th>Supprimer</th>
+                                </thead>
+                                <tbody>
+                                {% for salarie in salaries %}
+                                    <tr>
+                                        <td>{{ salarie.nom }}</td>
+                                        <td>{{ salarie.prenom }}</td>
+                                        <td>{{ salarie.email }}</td>
+                                        <td>
+                                            {% if salarie.telephone == null %}
+                                                Non renseigné
+                                            {% else %}
+                                                {{ salarie.telephone }}
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ salarie.service }}</td>
+                                        <td>
+                                            {% for key,value in salarie.roles %}
+                                                {% if value == 'ROLE_RESPONSABLE_RH' %}
+                                                    Responsable RH,
+                                                {% elseif value == 'ROLE_RESPONSABLE_SERVICE' %}
+                                                    Responsable de service,
+                                                {% else %}
+                                                    Salarié
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td style="text-align:center">
+                                            <a class="btn btn-primary" href="{{ path('app_salarie_modif',{"id":salarie.id}) }}">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <a href="{{ path('app_salarie_suppr', {'id': salarie.id}) }}" class="btn btn-danger disable-btn del-link" type="submit">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

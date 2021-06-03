@@ -1,0 +1,111 @@
+{% extends "adminbase.html.twig" %}
+{% block bars %}
+    <div class="col-md-3 left_col menu_fixed">
+        <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+                <a href="{{ path('app_home') }}" class="site_title"> <img style="width: 36%" src="{{ asset('build/images/Logo-delko.png') }}" alt="logo delko"> <span>RH Delko</span></a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+            <div class="profile clearfix">
+                <div class="profile_pic">
+                    <img src="{{ app.user.avatarUrl(50) }}" alt="..." class="img-circle profile_img">
+                </div>
+                <div class="profile_info">
+                    <span>Bienvenue,</span>
+                    <h2>{{ app.user.nomComplet }}</h2>
+                </div>
+            </div>
+            <!-- /menu profile quick info -->
+
+            <br />
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu ">
+                <div class="menu_section">
+                    <ul class="nav side-menu">
+                        <li><a href="{{ path('app_home') }}"><i class="fa fa-home"></i> Accueil </a>
+                        </li>
+                        {% if is_granted("ROLE_SALARIE") %}
+                            <li><a><i class="fa fa-user"></i> Congés <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{ path('app_conges_demande') }}">Faire une demande</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        {% if is_granted("ROLE_RESPONSABLE_RH") %}
+                        <li><a><i class="fa fa-user"></i> Utilisateurs <span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a href="{{ path('app_admin_users') }}">Gérer</a></li>
+                                <li><a href="{{ path('app_admin_new_user') }}">Ajouter</a></li>
+                            </ul>
+                        </li>
+
+                        <li><a><i class="fa fa-user"></i> Services <span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a href="{{ path('app_service') }}">Gérer</a></li>
+                                <li><a href="{{ path('app_service_ajout') }}">Ajouter</a></li>
+                            </ul>
+                        </li>
+
+                        <li><a><i class="fa fa-user"></i> Salariés <span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a href="{{ path('app_salarie') }}">Gérer</a></li>
+                                <li><a href="{{ path('app_salarie_ajout') }}">Ajouter</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+        </div>
+    </div>
+
+    <!-- top navigation -->
+    <div class="top_nav">
+        <div class="nav_menu">
+{#            <div class="nav toggle">#}
+{#                <a id="menu_toggle"><i class="fa fa-bars"></i></a>#}
+{#            </div>#}
+            <nav class="nav navbar-nav">
+                <ul class=" navbar-right">
+                    <li class="nav-item dropdown open" style="padding-left: 15px;">
+                        <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ app.user.avatarUrl(30) }}" alt="">{{ app.user.nomComplet }}
+                        </a>
+                        <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item"  href="{{ path('app_admin_changepswd') }}"><i class="fa fa-key pull-right"></i>Changer mon mot de passe</a>
+                            <a class="dropdown-item"  href="{{ path('app_logout') }}"><i class="fa fa-sign-out pull-right"></i>Déconnexion</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- /top navigation -->
+
+    <!-- page content -->
+    <div class="right_col" role="main">
+        {% for message in app.flashes("error") %}
+            <div style="font-size: 15px; display: flex; flex-direction: column" class="alert alert-danger alert-dismissible " role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <strong>Erreur :</strong>
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes("success") %}
+            <div style="font-size: 15px; display: flex; flex-direction: column" class="alert alert-success alert-dismissible " role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <strong>Succès :</strong>
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% block contentpage %}{% endblock %}
+    </div>
+    <!-- /page content -->
+{% endblock %}

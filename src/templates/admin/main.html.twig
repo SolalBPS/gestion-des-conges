@@ -1,0 +1,23 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block contentpage %}
+<div style="">
+    <h1> RH Delko </h1>
+    <br/>
+    <img style="width: 10%" src="{{ asset('build/images/logo-delko.png') }}" alt="logo delko">
+    {% if is_granted("ROLE_SALARIE")%}
+        <a> <button class="btn btn-primary"> Salarié </button> </a>
+    {% endif %}
+
+    {% if is_granted("ROLE_RESPONSABLE_SERVICE")%}
+        <a> <button class="btn btn-primary"> Resp Service </button> </a>
+    {% endif %}
+
+    {% if is_granted("ROLE_RESPONSABLE_RH")%}
+        <a> <button class="btn btn-primary"> Resp RH </button> </a>
+    {% endif %}
+</div>
+<br>
+<a href="{{ path('app_sendmail') }}" onclick="return confirm('are u sure?')"> <button class="btn btn-primary"> Envoyer un mail de test </button> </a>
+
+{% endblock %}
