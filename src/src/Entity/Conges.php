@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CongesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CongesRepository::class)
@@ -81,7 +82,7 @@ class Conges
         return $this->datedebut;
     }
 
-    public function setDatedebut(\DateTimeInterface $datedebut): self
+    public function setDatedebut(?\DateTimeInterface $datedebut): self
     {
         $this->datedebut = $datedebut;
 
@@ -105,7 +106,7 @@ class Conges
         return $this->datefin;
     }
 
-    public function setDatefin(\DateTimeInterface $datefin): self
+    public function setDatefin(?\DateTimeInterface $datefin): self
     {
         $this->datefin = $datefin;
 

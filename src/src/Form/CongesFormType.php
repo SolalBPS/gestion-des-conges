@@ -29,17 +29,18 @@ class CongesFormType extends AbstractType
                 ],
                 "placeholder" => "Nature des congés",
                 "label" => "Nature des congés",
-                "required" => true,
-                "constraints" => [ new NotBlank(["message" => "Ne doit pas être vide"])]
+                "required" => false,
+                "constraints" => [ new NotBlank(["message" => "Veuillez sélectionner la nature des congés"])]
             ])
             ->add('motif', TextType::class, [
                 "label" => "Motif des congés exceptionnels conventionnel",
-                "required" => true,
+                "required" => false,
+                "constraints" => [ new NotBlank(["message" => "Veuillez entrer le motif"])]
             ])
 
             ->add('datedebut', DateType::class, [
                 "label" => "Date de début",
-                "required" => true,
+                "required" => false,
                 "widget" => "choice",
                 "days" => range(1, 31),
                 "months" => range(1, 12),
@@ -47,7 +48,7 @@ class CongesFormType extends AbstractType
                 "placeholder" => [
                     "day" => "Jour", "month" => "Mois", "year" => "Année"
                 ],
-                "constraints" => [ new NotBlank(["message" => "Ne doit pas être vide"])]
+                "constraints" => [ new NotBlank(["message" => "Veuillez choisir la date de début des congés"])]
             ])
             ->add('typedatedebut', ChoiceType::class, [
                 "choices" => [
@@ -58,13 +59,14 @@ class CongesFormType extends AbstractType
                 "expanded" => true,
                 "multiple" => false,
                 "label" => "Type de journée de la date de début",
-                "required" => true,
-                "constraints" => [ new NotBlank(["message" => "Ne doit pas être vide"])]
+                "required" => false,
+                "placeholder" => false,
+                "constraints" => [ new NotBlank(["message" => "Veuillez sélectionner le type de journée de la date de début des congés"])]
             ])
 
             ->add('datefin', DateType::class, [
                 "label" => "Date de fin",
-                "required" => true,
+                "required" => false,
                 "widget" => "choice",
                 "days" => range(1, 31),
                 "months" => range(1, 12),
@@ -72,7 +74,7 @@ class CongesFormType extends AbstractType
                 "placeholder" => [
                     "day" => "Jour", "month" => "Mois", "year" => "Année"
                 ],
-                "constraints" => [ new NotBlank(["message" => "Ne doit pas être vide"])]
+                "constraints" => [ new NotBlank(["message" => "Veuillez choisir la date de fin des congés"])]
             ])
             ->add('typedatefin', ChoiceType::class, [
                 "choices" => [
@@ -83,23 +85,11 @@ class CongesFormType extends AbstractType
                 "expanded" => true,
                 "multiple" => false,
                 "label" => "Type de journée de la date de fin",
-                "required" => true,
-                "constraints" => [ new NotBlank(["message" => "Ne doit pas être vide"])]
+                "required" => false,
+                "placeholder" => false,
+                "constraints" => [ new NotBlank(["message" => "Veuillez sélectionner le type de journée de la date de fin des congés"])]
             ])
         ;
-//        $builder->get('nature')->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
-//            $form = $event->getForm();
-//            $nature= $form->get('nature')->getData();
-//
-//            if ($nature == "congés exceptionnels conventionnel"){
-//                $form->add('motif', TextType::class, [
-//                    "label" => "Motif des congés",
-//                    "required" => true,
-//                    "constraints" => [ new NotBlank(["message" => "Ne doit pas être vide"])]
-//                ]);
-//                $form->get("typedadedebut")->setData("matin");
-//            }
-//        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

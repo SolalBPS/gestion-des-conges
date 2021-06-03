@@ -8,7 +8,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ServiceRepository::class)
- * @UniqueEntity("nom")
  */
 class Service
 {
@@ -20,7 +19,7 @@ class Service
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique = true)
+     * @ORM\Column(type="string", length=255)
      */
     private $nom;
 

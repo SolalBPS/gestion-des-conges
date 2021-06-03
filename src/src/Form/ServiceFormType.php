@@ -16,8 +16,8 @@ class ServiceFormType extends AbstractType
         $builder
             ->add('nom',TextType::class, [
                 "label" => "Nom",
-                "required" => true,
-                "constraints" => [ new NotBlank(["message" => "Ne doit pas être vide"])]
+                "required" => false,
+                "constraints" => [ new NotBlank(["message" => "Veuillez entrer le nom du service"])]
             ])
         ;
     }

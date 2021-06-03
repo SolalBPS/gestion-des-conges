@@ -40,6 +40,7 @@ class SalarieHelper extends AbstractController
         $respcheck = $this->salarieRepository->findOneByRoleAndService("ROLE_RESPONSABLE_SERVICE", $service->getNom());
         if ($service->getNom() !== "Ressources Humaines" && $role->getRoleName() == "ROLE_RESPONSABLE_RH") {
             $this->addFlash("error", "Le/La responsable RH peut seulement être affecté(e) au service Ressources Humaines");
+            return false;
         }
         if ($rhcheck == false || $role->getRoleName() !== "ROLE_RESPONSABLE_RH" ){
             if ( $respcheck == null || $role->getRoleName() == "ROLE_SALARIE"){
@@ -72,6 +73,7 @@ class SalarieHelper extends AbstractController
         $respcheck = $this->salarieRepository->findOneByRoleAndService("ROLE_RESPONSABLE_SERVICE", $service->getNom());
         if ($service->getNom() !== "Ressources Humaines" && $role->getRoleName() == "ROLE_RESPONSABLE_RH") {
             $this->addFlash("error", "Le/La responsable RH peut seulement être affecté(e) au service Ressources Humaines");
+            return false;
         }
         if ($rhcheck == null || $role->getRoleName() !== "ROLE_RESPONSABLE_RH" || $rhcheck->getId() == $salarie->getId()) {
             if ($respcheck == null || $role->getRoleName() == "ROLE_SALARIE" || $respcheck->getId() == $salarie->getId()) {

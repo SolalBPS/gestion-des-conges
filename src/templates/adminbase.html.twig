@@ -292,5 +292,31 @@
             }
         });
     </script>
+    <!-- Increasing content font size  -->
+    <script>
+        $(document).ready(function () {
+            $('.x_panel').css("font-size", "15px");
+        });
+    </script>
+    <!-- beautifull DateType fields errors  -->
+    <script>
+        $(document).ready(function () {
+            if ($('#conges_form_datedebut').hasClass("is-invalid")) {
+                $('#conges_form_datedebut').css({"border-color": "white", "background-image": "none"});
+                $('[data-id="conges_form_datedebut_day"]').css("border", "solid #b94a48 1px");
+                $('[data-id="conges_form_datedebut_month"]').css("border", "solid #b94a48 1px");
+                $('[data-id="conges_form_datedebut_year"]').css("border", "solid #b94a48 1px");
+                $('.dropdown').not('.is-invalid').css("margin-left", "1px")
 
+            }
+            if ($('#conges_form_datefin').hasClass("is-invalid")) {
+                $('#conges_form_datefin').css({"border-color": "white", "background-image": "none"});
+                $('[data-id="conges_form_datefin_day"]').css("border", "solid #b94a48 1px");
+                $('[data-id="conges_form_datefin_month"]').css("border", "solid #b94a48 1px");
+                $('[data-id="conges_form_datefin_year"]').css("border", "solid #b94a48 1px");
+                $('.dropdown').not('.is-invalid').css("margin-left", "1px")
+            }
+
+        });
+    </script>
 {% endblock %}

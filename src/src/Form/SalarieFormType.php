@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class SalarieFormType extends AbstractType
 {
@@ -21,41 +22,39 @@ class SalarieFormType extends AbstractType
         $builder
             ->add('nom', TextType::class, [
                 "label" => 'Nom *',
-                "required" => true,
-                "attr" => ["title" => "Nom","pattern" => "^\p{L}+$", "oninvalid" => "this.setCustomValidity('Veuillez entrer un nom')", "onchange" => "this.setCustomValidity('')"],
-                "constraints" => [ new NotBlank(["message" => "Ne doit pas être vide"])]
+                "required" => false,
+                "constraints" => [ new NotBlank(["message" => "veuillez rentrer un nom"]), new Regex(["pattern" => "/^\p{L}+$/", "message" => "Veuillez entrer un nom valide (contient seulement des lettres)"])]
             ])
             ->add('prenom', TextType::class, [
                 "label" => 'Prenom *',
-                "required" => true,
-                "attr" => ["title" => "Prenom","pattern" => "^\p{L}+$", "oninvalid" => "this.setCustomValidity('Veuillez entrer un prénom')", "onchange" => "this.setCustomValidity('')"],
-                "constraints" => [ new NotBlank(["message" => "Ne doit pas être vide"])]
+                "required" => false,
+                "constraints" => [ new NotBlank(["message" => "Veuillez entrer un prénom"]), new Regex(["pattern" => "/^\p{L}+$/", "message" => "Veuillez entrer un prénom valide (contient seulement des lettres)"])]
             ])
             ->add('email', EmailType::class, [
                 "label" => 'E-mail *',
-                "required" => true,
-                "constraints" => [ new NotBlank(["message" => "Ne doit pas être vide"])]
+                "required" => false,
+                "constraints" => [ new NotBlank(["message" => "Veuillez entrer un e-mail"])]
             ])
             ->add('telephone', TelType::class, [
                 "label" => 'N° de téléphone',
-                "attr" => ["title" => "Numéro de téléphone francais (exemple: 0102030405)","pattern" => "^(([0][0-9][0-9]{8})|([0][0-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}))$", "oninvalid" => "this.setCustomValidity('Veuillez entrer un numéro de téléphone français valide')", "onchange" => "this.setCustomValidity('')"],
-                "required" => false
+                "required" => false,
+                "constraints" => [ new Regex( ["pattern" => "/^(([0][0-9][0-9]{8})|([0][0-9] [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}))$/","message" => "Veuillez entrer un numéro de téléphone français valide ou ne rien entrer (exemple: 0607080910 ou 06 07 08 09 10)"])]
             ])
             ->add('service', EntityType::class, [
                 "label" => 'Service *',
                 "mapped" => false,
+                "required" => false,
                 "class" => Service::class,
-                "required" => true,
                 "placeholder" => "Service",
-                "constraints" => [ new NotBlank(["message" => "Ne doit pas être vide"])],
+                "constraints" => [ new NotBlank(["message" => "Veuillez choisir un service"])],
             ])
             ->add('roles', EntityType::class, [
                 "label" => 'Rôle *',
                 "mapped" => false,
+                "required" => false,
                 "class" => Role::class,
-                "required" => true,
                 "placeholder" => 'Rôle',
-                "constraints" => [ new NotBlank(["message" => "ne doit pas être vide"])],
+                "constraints" => [ new NotBlank(["message" => "Veuillez choisir un rôle"])],
             ])
         ;
     }

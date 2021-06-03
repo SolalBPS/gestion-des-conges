@@ -43,13 +43,16 @@ class ServiceController extends AbstractController
         $form = $this->createForm(ServiceFormType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $service = $form->getData();
-            $this->entityManager->persist($service);
-            $this->entityManager->flush();
-            $this->addFlash("success", "Service ajouté");
-
-            return $this->redirectToRoute("app_service");
-
+            $existingservice = $this->serviceRepository->findOneBy(["nom" => $form["nom"]->getData()]);
+            if ($existingservice == null) {
+                $service = $form->getData();
+                $this->entityManager->persist($service);
+                $this->entityManager->flush();
+                $this->addFlash("success", "Service ajouté");
+                return $this->redirectToRoute("app_service");
+            } else {
+                $this->addFlash("error", "Ce service existe déjà");
+            }
         }
         return $this->render("service/ajoutservice.html.twig", ["serviceForm" => $form->createView()]);
     }
@@ -63,12 +66,15 @@ class ServiceController extends AbstractController
         $form->get('nom')->setData($service->getNom());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $service->setNom($form["nom"]->getData());
-            $this->entityManager->persist($service);
-            $this->entityManager->flush();
-            $this->addFlash("success", "Service modifié");
-            return $this->redirectToRoute("app_service");
-
+            if ($form["nom"]->getData() == $service->getNom()) {
+                $service->setNom($form["nom"]->getData());
+                $this->entityManager->persist($service);
+                $this->entityManager->flush();
+                $this->addFlash("success", "Service modifié");
+                return $this->redirectToRoute("app_service");
+            } else {
+                $this->addFlash("error", "Ce service existe déjà");
+            }
         }
         return $this->render("service/modifservice.html.twig", ["serviceForm" => $form->createView()]);
     }

@@ -72,7 +72,6 @@ class SalarieController extends AbstractController
             }
         }
         return $this->render("salarie/modifsalarie.html.twig", ["salarieForm" => $form->createView()]);
-        //test
     }
 
     /**
