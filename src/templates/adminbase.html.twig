@@ -275,19 +275,19 @@
     <script>
         $(document).ready(function () {
             if ($('select[name="conges_form[nature]"]').val() === "congés exceptionnels conventionnel")  {
-                $('input[name="conges_form[motif]"]').prop({'hidden':false, 'required':true});
+                $('input[name="conges_form[motif]"]').prop('hidden', false);
                 $('label[for="conges_form_motif"]').prop('hidden', false);
             } else {
-                $('input[name="conges_form[motif]"]').prop({'hidden':true, 'required':false});
+                $('input[name="conges_form[motif]"]').prop('hidden', true);
                 $('label[for="conges_form_motif"]').prop('hidden', true);
             }
         });
         $('select[name="conges_form[nature]"]').on('change', function() {
             if ($(this).val() === "congés exceptionnels conventionnel")  {
-                $('input[name="conges_form[motif]"]').prop({'hidden':false, 'required':true});
+                $('input[name="conges_form[motif]"]').prop('hidden', false);
                 $('label[for="conges_form_motif"]').prop('hidden', false);
             } else {
-                $('input[name="conges_form[motif]"]').prop({'hidden':true, 'required':false});
+                $('input[name="conges_form[motif]"]').prop('hidden', true);
                 $('label[for="conges_form_motif"]').prop('hidden', true);
             }
         });

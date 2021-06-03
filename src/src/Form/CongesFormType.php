@@ -12,6 +12,9 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\AbstractComparison;
+use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CongesFormType extends AbstractType
@@ -48,7 +51,10 @@ class CongesFormType extends AbstractType
                 "placeholder" => [
                     "day" => "Jour", "month" => "Mois", "year" => "Année"
                 ],
-                "constraints" => [ new NotBlank(["message" => "Veuillez choisir la date de début des congés"])]
+                "constraints" => [
+                    new NotBlank(["message" => "Veuillez choisir la date de début des congés"]),
+                    new GreaterThanOrEqual("today", null, "La date de début des congés doit être postérieure ou égale à la date d'aujour'hui")
+                ]
             ])
             ->add('typedatedebut', ChoiceType::class, [
                 "choices" => [
@@ -74,7 +80,11 @@ class CongesFormType extends AbstractType
                 "placeholder" => [
                     "day" => "Jour", "month" => "Mois", "year" => "Année"
                 ],
-                "constraints" => [ new NotBlank(["message" => "Veuillez choisir la date de fin des congés"])]
+                "constraints" => [
+                    new NotBlank(["message" => "Veuillez choisir la date de fin des congés"]),
+                    new GreaterThanOrEqual("today", null, "La date de fin des congés doit être postérieure ou égale à la date d'aujourd'hui"),
+//                    new GreaterThanOrEqual(null, "datedebut", "La date de fin des congés doit être postérieure ou égale à la date de début des congés")
+                ]
             ])
             ->add('typedatefin', ChoiceType::class, [
                 "choices" => [

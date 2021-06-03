@@ -40,6 +40,7 @@ class Conges
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\GreaterThanOrEqual(propertyPath="datedebut", message="La date de fin des congés doit être postérieure ou égale à la date de début des congés")
      */
     private $datefin;
 
