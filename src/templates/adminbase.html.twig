@@ -275,20 +275,20 @@
     <script>
         $(document).ready(function () {
             if ($('select[name="conges_form[nature]"]').val() === "congés exceptionnels conventionnel")  {
-                $('input[name="conges_form[motif]"]').prop('hidden', false);
-                $('label[for="conges_form_motif"]').prop('hidden', false);
+                $('input[name="conges_form[motif]"]').show().attr({"required": true, "oninvalid": "setCustomValidity('Veuillez entrer un motif')", "oninput": "setCustomValidity('')"});
+                $('label[for="conges_form_motif"]').show();
             } else {
-                $('input[name="conges_form[motif]"]').prop('hidden', true);
-                $('label[for="conges_form_motif"]').prop('hidden', true);
+                $('input[name="conges_form[motif]"]').hide().removeAttr("oninvalid").removeAttr("required");
+                $('label[for="conges_form_motif"]').hide();
             }
         });
         $('select[name="conges_form[nature]"]').on('change', function() {
             if ($(this).val() === "congés exceptionnels conventionnel")  {
-                $('input[name="conges_form[motif]"]').prop('hidden', false);
-                $('label[for="conges_form_motif"]').prop('hidden', false);
+                $('input[name="conges_form[motif]"]').show().attr({"required": true, "oninvalid": "setCustomValidity('Veuillez entrer un motif')", "oninput": "setCustomValidity('')"});
+                $('label[for="conges_form_motif"]').show();
             } else {
-                $('input[name="conges_form[motif]"]').prop('hidden', true);
-                $('label[for="conges_form_motif"]').prop('hidden', true);
+                $('input[name="conges_form[motif]"]').hide().removeAttr("oninvalid").removeAttr("required");
+                $('label[for="conges_form_motif"]').hide();
             }
         });
     </script>

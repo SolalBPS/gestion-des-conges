@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Login
+{% block title %}Connexion
 {% endblock %}
 {% block stylesheets %}
 	<meta
@@ -39,7 +39,7 @@
 			<div class="animate form login_form">
 				<section class="login_content">
 					<form method="post">
-						<h1>ADMIN PANEL</h1>
+						<h1>Delko RH</h1>
 						<div>
 							<input type="text" value="{{ last_username }}" name="username" id="inputText" class="form-control" placeholder="Nom" required autofocus>
 						</div>
@@ -67,12 +67,12 @@
 							<br/>
 
 							<div>
-								<h1>
-									<i class="fa fa-paw"></i>
-									ADMIN PANEL</h1>
-								<p>©{{ "now"|date("Y") }}
-									{{ "backend.login.all_rights"|trans }}
-									<a target="_blank" href="//example.com">example.com<a/></p>
+								<img style="width: 36%" src="{{ asset('build/images/Logo-delko.png') }}" alt="logo delko">
+								<p>
+									©{{ "now"|date("Y") }}
+									tous droits réservés
+									<a target="_blank" href="//example.com"> example.com </a>
+								</p>
 								</p>
 							</div>
 						</div>

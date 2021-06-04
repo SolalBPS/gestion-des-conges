@@ -125,4 +125,16 @@ class Conges
 
         return $this;
     }
+
+    public function getUserId(): ?int
+    {
+        return $this->UserId;
+    }
+
+    public function setUserId(int $UserId): self
+    {
+        $this->UserId = $UserId;
+
+        return $this;
+    }
 }

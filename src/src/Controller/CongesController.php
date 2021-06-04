@@ -29,13 +29,8 @@ class CongesController extends AbstractController
         $form = $this->createForm(CongesFormType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($this->congesHelper->demandeConges($form) == false) {
-                $this->addFlash("error", "La date ne peut pas être inférieure");
-                $this->redirectToRoute("app_conges_demande");
-            } else {
-                $this->addFlash("success", "La date est bonne");
-                $this->redirectToRoute("app_conges_demande");
-            }
+            $this->congesHelper->demandeConges($form);
+            return $this->redirectToRoute("app_home");
         }
         return $this->render("conges/demande_conges.html.twig", ["congesForm" => $form->createView()]);
     }

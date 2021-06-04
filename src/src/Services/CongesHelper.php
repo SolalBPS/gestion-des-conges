@@ -6,9 +6,10 @@ namespace App\Services;
 
 use App\Repository\CongesRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 
-class CongesHelper
+class CongesHelper extends AbstractController
 {
 
     private $entityManager;
@@ -21,16 +22,10 @@ class CongesHelper
     }
 
     public function demandeConges(FormInterface $form) {
-        $today = new \DateTime();
-        if ($form["datedebut"]->getData()->format('m') == $today->format('m') || $form["datefin"]->getData()->format('m') <= $today->format('m')) {
-
-        }
-        if ($form["datedebut"]->getData()->format('d') <= $today->format('d') || $form["datefin"]->getData()->format('d') <= $today->format('d')) {
-            return false;
-        } else {
-            return true;
-        }
-
+       $conges = $form->getData();
+       $this->entityManager->persist($conges);
+       $this->entityManager->flush();
+       $this->addFlash("success", "Demande enregistrée");
     }
 
 }

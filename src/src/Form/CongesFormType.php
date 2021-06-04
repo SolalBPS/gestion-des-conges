@@ -38,7 +38,7 @@ class CongesFormType extends AbstractType
             ->add('motif', TextType::class, [
                 "label" => "Motif des congés exceptionnels conventionnel",
                 "required" => false,
-                "constraints" => [ new NotBlank(["message" => "Veuillez entrer le motif"])]
+//                "constraints" => [ new NotBlank(["message" => "Veuillez entrer le motif"])]
             ])
 
             ->add('datedebut', DateType::class, [
@@ -83,7 +83,6 @@ class CongesFormType extends AbstractType
                 "constraints" => [
                     new NotBlank(["message" => "Veuillez choisir la date de fin des congés"]),
                     new GreaterThanOrEqual("today", null, "La date de fin des congés doit être postérieure ou égale à la date d'aujourd'hui"),
-//                    new GreaterThanOrEqual(null, "datedebut", "La date de fin des congés doit être postérieure ou égale à la date de début des congés")
                 ]
             ])
             ->add('typedatefin', ChoiceType::class, [
