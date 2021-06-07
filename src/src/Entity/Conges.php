@@ -49,6 +49,11 @@ class Conges
      */
     private $typedatefin;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $userId;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -128,12 +133,12 @@ class Conges
 
     public function getUserId(): ?int
     {
-        return $this->UserId;
+        return $this->userId;
     }
 
-    public function setUserId(int $UserId): self
+    public function setUserId(int $userId): self
     {
-        $this->UserId = $UserId;
+        $this->userId = $userId;
 
         return $this;
     }

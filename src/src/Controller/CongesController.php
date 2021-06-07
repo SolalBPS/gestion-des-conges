@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CongesController extends AbstractController
@@ -25,10 +26,12 @@ class CongesController extends AbstractController
      * @Route("/conges/demande",name="app_conges_demande")
      * @IsGranted("ROLE_SALARIE")
      */
-    public function demandeConges(Request $request){
+    public function demandeConges(Request $request, UserInterface $user){
         $form = $this->createForm(CongesFormType::class);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
+
             $this->congesHelper->demandeConges($form);
             return $this->redirectToRoute("app_home");
         }
