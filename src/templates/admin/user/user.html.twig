@@ -35,11 +35,10 @@
 									<th>Email</th>
 									<th>Nom complet</th>
 									<th>Modifier</th>
-									<th>Etat</th>
 									<th>Supprimer</th>
 								</thead>
 								<tbody>
-									{% for user in users|filter(user => not user.deleted)  %}
+									{% for user in users  %}
 										<tr>
 											<td>{{ user.username }}</td>
 											<td>{{ user.email }}</td>
@@ -48,17 +47,6 @@
 												<a class="btn btn-primary" href="{{ path('app_admin_edit_user',{"id":user.id}) }}">
 													<i class="fa fa-edit"></i>
 												</a>
-											</td>
-											<td style="text-align:center">
-												{%  if user.valid %}
-													<a class="btn btn-success activate-link" href="{{ path('app_admin_changevalidite_user', {'id': user.id}) }}">
-														<i class="fa fa-check"></i>
-													</a>
-												{% else %}
-													<a class="btn btn-warning activate-link" href="{{ path('app_admin_changevalidite_user', {'id': user.id}) }}">
-														<i class="fa fa-times"></i>
-													</a>
-												{% endif %}
 											</td>
 											<td style="text-align:center">
 												<a href="{{ path('app_admin_delete_user', {'id': user.id}) }}" class="btn btn-danger disable-btn del-link" type="submit">

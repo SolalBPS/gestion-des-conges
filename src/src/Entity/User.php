@@ -51,16 +51,6 @@ class User implements UserInterface, EquatableInterface
     private $email;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $valid;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $deleted;
-
-    /**
      * @ORM\Column(type="string", length=255))
      */
     private $password;
@@ -165,30 +155,6 @@ class User implements UserInterface, EquatableInterface
         return $this;
     }
 
-    public function isValid(): ?bool
-    {
-        return $this->valid;
-    }
-
-    public function setValid(bool $valid): self
-    {
-        $this->valid = $valid;
-
-        return $this;
-    }
-
-    public function isDeleted(): ?bool
-    {
-        return $this->deleted;
-    }
-
-    public function setDeleted(bool $deleted): self
-    {
-        $this->deleted = $deleted;
-
-        return $this;
-    }
-
     public function setPassword($password): self
     {
         $this->password = $password;
@@ -199,7 +165,6 @@ class User implements UserInterface, EquatableInterface
     public function getAvatarUrl($size){
         return "https://api.adorable.io/avatars/$size/".$this->username;
     }
-
 
     function getColorCode() {
         $code = dechex(crc32($this->getUsername()));
@@ -213,11 +178,11 @@ class User implements UserInterface, EquatableInterface
 
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        /*if (strlen($this->password)< 3){
-            $context->buildViolation('Mot de passe trop court')
-                ->atPath('justpassword')
-                ->addViolation();
-        }*/
+//        if (strlen($this->password) < 3){
+//            $context->buildViolation('Mot de passe trop court')
+//                ->atPath('justpassword')
+//                ->addViolation();
+//        }
     }
 
     public function __toString()
@@ -240,7 +205,7 @@ class User implements UserInterface, EquatableInterface
     public function isEqualTo(UserInterface $user)
     {
         if ($user instanceof User)
-        return $this->isValid() && !$this->isDeleted() && $this->getPassword() == $user->getPassword() && $this->getUsername() == $user->getUsername()
+        return $this->getPassword() == $user->getPassword() && $this->getUsername() == $user->getUsername()
             && $this->getEmail() == $user->getEmail() ;
     }
 }

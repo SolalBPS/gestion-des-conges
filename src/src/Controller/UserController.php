@@ -36,9 +36,7 @@ class UserController extends BaseController
     {
         $this->denyAccessUnlessGranted("ROLE_ADMIN");
         $user = new User();
-        $user->setValid(true)
-            ->setDeleted(false)
-            ->setEmail("mam@ddd.com")
+        $user->setEmail("mam@ddd.com")
             ->setNomComplet("nom comp")
             ->setUsername("mamless")
             ->setRoles(["ROLE_ADMIN"])
@@ -61,9 +59,9 @@ class UserController extends BaseController
      * @Route("/user/new",name="app_admin_new_user")
      * @IsGranted("ROLE_RESPONSABLE_RH")
      */
-    public function newUser(Request $request, TranslatorInterface $translator)
+    public function newUser(Request $request)
     {
-        $form = $this->createForm(UserFormType::class, null, ["translator" => $translator]);
+        $form = $this->createForm(UserFormType::class, null);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var  User $user */
@@ -71,14 +69,12 @@ class UserController extends BaseController
             /** @var Role $role */
             $password = $form["justpassword"]->getData();
             $role = $form["role"]->getData();
-            $user->setValid(true)
-                ->setDeleted(false)
-                ->setAdmin(true)
+            $user->setAdmin(true)
                 ->setPassword($this->passwordEncoder->encodePassword($user, $password))
                 ->setRoles([$role->getRoleName()]);
             $this->entityManager->persist($user);
             $this->entityManager->flush();
-            $this->addFlash("success", $translator->trans('backend.user.add_user'));
+            $this->addFlash("success", "Utilisateur ajouté");
             return $this->redirectToRoute("app_admin_users");
         }
         return $this->render("admin/user/userform.html.twig", ["userForm" => $form->createView()]);
@@ -88,9 +84,9 @@ class UserController extends BaseController
      * @Route("/user/edit/{id}",name="app_admin_edit_user")
      * @IsGranted("ROLE_RESPONSABLE_RH")
      */
-    public function editUser(User $user, Request $request, TranslatorInterface $translator)
+    public function editUser(User $user, Request $request)
     {
-        $form = $this->createForm(UserFormType::class, $user, ["translator" => $translator]);
+        $form = $this->createForm(UserFormType::class, $user);
         $form->get('justpassword')->setData($user->getPassword());
         $therole = $this->roleRepository->findOneBy(["roleName" => $user->getRoles()[0]]);
         $form->get('role')->setData($therole);
@@ -105,7 +101,7 @@ class UserController extends BaseController
             }
             $this->entityManager->persist($user);
             $this->entityManager->flush();
-            $this->addFlash("success", $translator->trans('backend.user.modify_user'));
+            $this->addFlash("success", "Utilisateur modifié");
             return $this->redirectToRoute("app_admin_users");
         }
         return $this->render("admin/user/userform.html.twig", ["userForm" => $form->createView()]);
@@ -149,47 +145,15 @@ class UserController extends BaseController
             if ($this->passwordEncoder->isPasswordValid($user, $password)) {
                 $user->setPassword($this->passwordEncoder->encodePassword($user, $newPassword));
             } else {
-                $this->addFlash("error", $translator->trans('backend.user.new_passwod_must_be'));
+                $this->addFlash("error", "Erreur lors du changement de mot de passe");
                 return $this->render("admin/params/changeMdpForm.html.twig", ["passwordForm" => $form->createView()]);
             }
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();
-            $this->addFlash("success", $translator->trans('backend.user.changed_password'));
+            $this->addFlash("success", "Mot de passe modifié !");
             return $this->redirectToRoute("app_home");
         }
         return $this->render("admin/params/changeMdpForm.html.twig", ["passwordForm" => $form->createView()]);
-    }
-
-    /**
-     * @Route("/user/groupaction",name="app_admin_groupaction_user")
-     * @IsGranted("ROLE_RESPONSABLE_RH")
-     */
-    public function groupAction(Request $request, TranslatorInterface $translator)
-    {
-        $action = $request->get("action");
-        $ids = $request->get("ids");
-        $users = $this->userRepository->findBy(["id" => $ids]);
-
-        if ($action == $translator->trans('backend.user.deactivate')) {
-            foreach ($users as $user) {
-                $user->setValid(false);
-                $this->entityManager->persist($user);
-            }
-        } else if ($action == $translator->trans('backend.user.Activate')) {
-            foreach ($users as $user) {
-                $user->setValid(true);
-                $this->entityManager->persist($user);
-            }
-        } else if ($action == $translator->trans('backend.user.delete')) {
-            foreach ($users as $user) {
-                $user->setDeleted(true);
-                $this->entityManager->persist($user);
-            }
-        } else {
-            return $this->json(["message" => "error"]);
-        }
-        $this->entityManager->flush();
-        return $this->json(["message" => "success", "nb" => count($users)]);
     }
 }

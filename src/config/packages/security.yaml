@@ -3,7 +3,6 @@ security:
         App\Entity\User:
             algorithm: auto
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
                 class: App\Entity\User
@@ -32,10 +31,7 @@ security:
                 lifetime: 2592000
             switch_user: true
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin, roles: ROLE_SALARIE}
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/salarie, roles: ROLE_RESPONSABLE_RH }
+

@@ -21,21 +21,14 @@ class UserChecker implements UserCheckerInterface
             return;
         }
 
-        if ($user->isDeleted()) {
-            // the message passed to this exception is meant to be displayed to the user
-            throw new CustomUserMessageAccountStatusException('Your user account no longer exists.');
-        }
     }
 
     public function checkPostAuth(UserInterface $user)
     {
+
         if (!$user instanceof User) {
             return;
         }
 
-        // user account is expired, the user may be notified
-        if (!$user->isValid()) {
-            throw new AccountExpiredException('Your user account is disabled');
-        }
     }
 }

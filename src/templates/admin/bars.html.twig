@@ -1,6 +1,6 @@
 {% extends "adminbase.html.twig" %}
 {% block bars %}
-    <div class="col-md-3 left_col menu_fixed">
+    <div style="font-size: 15px" class="col-md-3 left_col menu_fixed">
         <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
                 <a href="{{ path('app_home') }}" class="site_title"> <img style="width: 36%" src="{{ asset('build/images/Logo-delko.png') }}" alt="logo delko"> <span>RH Delko</span></a>
@@ -9,12 +9,12 @@
             <div class="clearfix"></div>
 
             <!-- menu profile quick info -->
-            <div class="profile clearfix">
-                <div class="profile_pic">
-                    <img src="{{ app.user.avatarUrl(50) }}" alt="..." class="img-circle profile_img">
-                </div>
-                <div class="profile_info">
-                    <span>Bienvenue,</span>
+            <div style="display: flex; justify-content: center" class="profile clearfix">
+{#                <div class="profile_pic">#}
+{#                    <img src="{{ app.user.avatarUrl(50) }}" alt="..." class="img-circle profile_img">#}
+{#                </div>#}
+                <div style="display: flex; flex-direction: column; align-items: center" class="profile_info">
+                    <span style="font-size: 15px">Bienvenue,</span>
                     <h2>{{ app.user.nomComplet }}</h2>
                 </div>
             </div>

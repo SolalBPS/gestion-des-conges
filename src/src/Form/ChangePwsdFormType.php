@@ -20,23 +20,22 @@ class ChangePwsdFormType extends AbstractType
 
         $builder
             ->add("justpassword", PasswordType::class, [
-                "label" => $this->translator->trans('backend.user.current_password'),
-                "required" => true,
+                "label" => "Mot de passe actuel",
                 "mapped" => false,
                 "constraints" => [
-                    new NotBlank(["message" => $this->translator->trans('backend.global.must_not_be_empty')]),
-                    new UserPassword(["message" => $this->translator->trans('backend.user.remember_password')])
+                    new NotBlank(["message" => "Veuillez entrer le mot de passe actuel"]),
+                    new UserPassword(["message" => "Veuillez entrer le mot de passe actuel"])
                 ]
             ])
             ->add("newpassword", RepeatedType::class, [
                 "mapped" => false,
-                'invalid_message' => $this->translator->trans('backend.user.new_passwod_must_be'),
+                'invalid_message' => "Mots de passes non identiques",
                 "type" => PasswordType::class,
                 "constraints" => [
-                    new NotBlank(["message" => $this->translator->trans('backend.global.must_not_be_empty')])
+                    new NotBlank(["message" => "Ne doit pas être vide"])
                 ],
-                "first_options"  => ['label' => $this->translator->trans('backend.user.new_password')],
-                "second_options"  => ['label' => $this->translator->trans('backend.user.confirm_password')]
+                "first_options"  => ['label' => "Nouveau mot de passe"],
+                "second_options"  => ['label' => "Confirmez le nouveau mot de passe"]
             ]);
     }
 

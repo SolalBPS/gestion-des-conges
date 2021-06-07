@@ -24,12 +24,13 @@ class UserFormType extends AbstractType
             ->add("email", EmailType::class)
             ->add("nomComplet", TextType::class, ["label" => "Nom complet"])
             ->add("justpassword", TextType::class, [
-                "label" => "mot de passe",
+                "label" => "Mot de passe",
                 "required" => true,
                 "mapped" => false,
                 "constraints" => [ new NotBlank(["message" => "ne doit pas être vide"])]
             ])
             ->add("role", EntityType::class, [
+                "label" => "Rôle",
                 "mapped" => false,
                 "class" => Role::class,
                 "required" => true,
@@ -40,7 +41,6 @@ class UserFormType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired('translator');
         $resolver->setDefaults([
             'data_class' => User::class
         ]);
