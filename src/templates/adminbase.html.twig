@@ -110,15 +110,29 @@
         var dataminetables = $('.dataminetables').dataTable({
             "columnDefs": [
                 {"orderable": false, "targets": 0}
-            ]
+            ],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/French.json"
+            }
         });
 
-        var datasorttables = $('.dataminetables').DataTable();
+        var datasorttables = $('.datasorttables').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/French.json"
+            }
+        });
 
         var datanotminetables = $('.datanotminetables').dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/French.json"
+            }
         });
 
-        var datanotsorttables = $('.datanotminetables').DataTable();
+        var datanotsorttables = $('.datanotsorttables').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/French.json"
+            }
+        });
 
 
         $(document).on("click",".activate-link",function (e) {

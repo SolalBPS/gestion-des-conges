@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class ServiceFormType extends AbstractType
 {
@@ -17,7 +18,7 @@ class ServiceFormType extends AbstractType
             ->add('nom',TextType::class, [
                 "label" => "Nom",
                 "required" => false,
-                "constraints" => [ new NotBlank(["message" => "Veuillez entrer le nom du service"])]
+                "constraints" => [ new NotBlank(["message" => "Veuillez entrer le nom du service"]), new Regex(["pattern" => "/^\p{L}+$/", "message" => "Veuillez entrer un nom valide"])]
             ])
         ;
     }
