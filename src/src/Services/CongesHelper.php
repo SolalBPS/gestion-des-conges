@@ -60,7 +60,7 @@ class CongesHelper extends AbstractController
                     "typedatefin" => $form["typedatefin"]->getData(),
                 ]);
             $this->mailer->send($email);
-            $this->addFlash("success", "Responsable RH notifié(e)");
+            $this->addFlash("success", "Le/La responsable RH a été notifié(e)");
         } else {
             $email = (new TemplatedEmail())
                 ->from("rh@delko.fr")
@@ -78,6 +78,7 @@ class CongesHelper extends AbstractController
                     "typedatefin" => $form["typedatefin"]->getData(),
                 ]);
             $this->mailer->send($email);
+            $this->addFlash("success", "Le/La responsable de votre service a été notifié(e)");
         }
     }
 }

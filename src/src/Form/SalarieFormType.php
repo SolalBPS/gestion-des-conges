@@ -6,6 +6,7 @@ use App\Entity\Role;
 use App\Entity\Salarie;
 use App\Entity\Service;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -14,6 +15,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Unique;
+use Symfony\Component\Validator\Constraints\Email;
 
 class SalarieFormType extends AbstractType
 {
@@ -33,7 +36,7 @@ class SalarieFormType extends AbstractType
             ->add('email', EmailType::class, [
                 "label" => 'E-mail *',
                 "required" => false,
-                "constraints" => [ new NotBlank(["message" => "Veuillez entrer un e-mail"])]
+                "constraints" => [ new NotBlank(["message" => "Veuillez entrer un e-mail"]), new Email(["message" => "Veuillez entrer une adresse e-mail valide"])]
             ])
             ->add('telephone', TelType::class, [
                 "label" => 'N° de téléphone',
@@ -62,7 +65,10 @@ class SalarieFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Salarie::class,
+            "data_class" => Salarie::class,
+            "attr" => [
+                "novalidate"=>"novalidate",
+            ]
         ]);
     }
 }

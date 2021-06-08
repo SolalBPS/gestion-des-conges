@@ -38,6 +38,11 @@ class SalarieHelper extends AbstractController
         $role = $form["roles"]->getData();
         $rhcheck = $this->salarieRepository->findOneByRole("ROLE_RESPONSABLE_RH");
         $respcheck = $this->salarieRepository->findOneByRoleAndService("ROLE_RESPONSABLE_SERVICE", $service->getNom());
+        $emailcheck = $this->salarieRepository->findOneByEmail($form["email"]->getData());
+        if ($emailcheck !== null) {
+            $this->addFlash("error", "Cette addresse e-mail est déjà associée à un salarié");
+            return false;
+        }
         if ($service->getNom() !== "Ressources humaines" && $role->getRoleName() == "ROLE_RESPONSABLE_RH") {
             $this->addFlash("error", "Le/La responsable RH peut seulement être affecté(e) au service Ressources humaines");
             return false;
@@ -71,6 +76,11 @@ class SalarieHelper extends AbstractController
         $role = $form["roles"]->getData();
         $rhcheck = $this->salarieRepository->findOneByRole("ROLE_RESPONSABLE_RH");
         $respcheck = $this->salarieRepository->findOneByRoleAndService("ROLE_RESPONSABLE_SERVICE", $service->getNom());
+        $emailcheck = $this->salarieRepository->findOneByEmail($form["email"]->getData());
+        if ($emailcheck !== null && $emailcheck->getId() !== $salarie->getId()) {
+            $this->addFlash("error", "Cette addresse e-mail est déjà associée à un salarié");
+            return false;
+        }
         if ($service->getNom() !== "Ressources humaines" && $role->getRoleName() == "ROLE_RESPONSABLE_RH") {
             $this->addFlash("error", "Le/La responsable RH peut seulement être affecté(e) au service Ressources humaines");
             return false;
