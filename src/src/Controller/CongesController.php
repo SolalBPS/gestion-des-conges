@@ -31,8 +31,8 @@ class CongesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->congesHelper->demandeConges($form);
+            $this->congesHelper->notifDemandeConges($form);
             return $this->redirectToRoute("app_home");
         }
         return $this->render("conges/demande_conges.html.twig", ["congesForm" => $form->createView()]);

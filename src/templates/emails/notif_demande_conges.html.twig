@@ -1,0 +1,19 @@
+<h1>Nouvelle demande de congés</h1>
+
+<div style="display: flex; flex-direction: column; justify-content: left; font-size: 15px">
+    <p>
+        <strong> De : </strong> {{ prenom }} {{ nom }}
+    </p>
+    <p>
+        <strong> Nature : </strong> {{ nature }} <br>
+        {% if motif %}
+            <strong> Motif : </strong> {{ motif }}
+        {% endif %}
+    </p>
+    <p>
+        <strong> Date de début : </strong> {{ datedebut }} ({{ typedatedebut }}) <br>
+        <strong> Date de fin : </strong>   {{ datefin }} ({{ typedatefin }})
+    </p>
+
+    <a href="http://localhost/conges/demande"> Visualiser la demande </a>
+</div>

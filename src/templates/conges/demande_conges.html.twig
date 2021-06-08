@@ -30,7 +30,7 @@
                         <div class="item form-group">
                             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                                 <a class="btn btn-warning" href="{{ path('app_home') }}">Annuler</a>
-                                <button type="submit" onclick="return confirm('Êtes vous sûr de vouloir faire cette demande ?')" value="submit" name="valider" class="btn btn-success"> Enregistrer </button>
+                                <button type="submit" onclick="return confirm('Êtes vous sûr de vouloir faire cette demande ? Votre responsable de service sera notifié par email.')" value="submit" name="valider" class="btn btn-success"> Enregistrer </button>
                             </div>
                         </div>
                         {{ form_end(congesForm) }}
