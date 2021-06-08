@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Role;
 use App\Entity\Salarie;
+use App\Form\ChangePwsdFormType;
 use App\Form\SalarieFormType;
 use App\Repository\RoleRepository;
 use App\Repository\SalarieRepository;
@@ -15,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 class SalarieController extends AbstractController
@@ -25,12 +27,14 @@ class SalarieController extends AbstractController
     private $roleRepository;
     private $serviceRepository;
     private $salarieHelper;
+    private $passwordEncoder;
 
 
-    public function __construct(EntityManagerInterface $entityManager, salarieRepository $salarieRepository, salarieHelper $salarieHelper, RoleRepository $roleRepository, ServiceRepository $serviceRepository)
+    public function __construct(EntityManagerInterface $entityManager, salarieRepository $salarieRepository, UserPasswordEncoderInterface $passwordEncoder, salarieHelper $salarieHelper, RoleRepository $roleRepository, ServiceRepository $serviceRepository)
     {
         $this->entityManager = $entityManager;
         $this->salarieRepository = $salarieRepository;
+        $this->passwordEncoder = $passwordEncoder;
         $this->roleRepository = $roleRepository;
         $this->serviceRepository = $serviceRepository;
         $this->salarieHelper = $salarieHelper;
@@ -94,6 +98,33 @@ class SalarieController extends AbstractController
         return $this->render("salarie/salarie.html.twig", ["salaries" => $salaries]);
     }
 
+    /**
+     * @Route("/salarie/changermdp",name="app_salarie_changepswd")
+     * @IsGranted("ROLE_RESPONSABLE_RH")
+     */
+    public function changePswd(Request $request)
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(ChangePwsdFormType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
 
+            $password = $form["justpassword"]->getData();
+            $newPassword = $form["newpassword"]->getData();
+
+            if ($this->passwordEncoder->isPasswordValid($user, $password)) {
+                $user->setPassword($this->passwordEncoder->encodePassword($user, $newPassword));
+            } else {
+                $this->addFlash("error", "Erreur lors du changement de mot de passe");
+                return $this->render("admin/params/changeMdpForm.html.twig", ["passwordForm" => $form->createView()]);
+            }
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+            $this->addFlash("success", "Mot de passe modifié !");
+            return $this->redirectToRoute("app_home");
+        }
+        return $this->render("admin/params/changeMdpForm.html.twig", ["passwordForm" => $form->createView()]);
+    }
 
 }

@@ -3,6 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\Role;
+use App\Entity\Salarie;
+use App\Entity\Service;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -52,6 +54,52 @@ class AppFixtures extends Fixture
             $user->setAdmin(true);
             $manager->persist($user);
 
+            $manager->flush();
+        }
+
+        $service = new Service();
+        if (!$manager->getRepository(Service::class)->findOneBy(["nom" => "Ressources humaines"])) {
+            $service->setNom("Ressources humaines");
+            $manager->persist($service);
+            $manager->flush();
+        }
+
+        $Salarie = new Salarie();
+        if (!$manager->find(Salarie::class, 1)) {
+            $Salarie->setNom('Jost');
+            $Salarie->setPrenom('Elisa');
+            $Salarie->setRoles(["ROLE_RESPONSABLE_RH", "ROLE_RESPONSABLE_SERVICE", "ROLE_SALARIE"]);
+            $Salarie->setPassword($this->encoder->encodePassword($Salarie, 'admin'));
+            $Salarie->setEmail('rh@delko.com');
+            $Salarie->setTelephone(null);
+            $Salarie->setService('Ressources humaines');
+            $manager->persist($Salarie);
+            $manager->flush();
+        }
+
+        $Salarie = new Salarie();
+        if (!$manager->find(Salarie::class, 1)) {
+            $Salarie->setNom('Bompais');
+            $Salarie->setPrenom('Solal');
+            $Salarie->setRoles(["ROLE_SALARIE"]);
+            $Salarie->setPassword($this->encoder->encodePassword($Salarie, 'solal'));
+            $Salarie->setEmail('bompais.solal@gmail.com');
+            $Salarie->setTelephone(null);
+            $Salarie->setService('Développement web');
+            $manager->persist($Salarie);
+            $manager->flush();
+        }
+
+        $Salarie = new Salarie();
+        if (!$manager->find(Salarie::class, 1)) {
+            $Salarie->setNom('Lartaud');
+            $Salarie->setPrenom('Jérôme');
+            $Salarie->setRoles(["ROLE_RESPONSABLE_SERVICE","ROLE_SALARIE"]);
+            $Salarie->setPassword($this->encoder->encodePassword($Salarie, 'webmanager'));
+            $Salarie->setEmail('web.manager@delko.com');
+            $Salarie->setTelephone(null);
+            $Salarie->setService('Développement web');
+            $manager->persist($Salarie);
             $manager->flush();
         }
     }

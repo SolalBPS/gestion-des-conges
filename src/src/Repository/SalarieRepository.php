@@ -3,11 +3,16 @@
 namespace App\Repository;
 
 use App\Entity\Salarie;
+use App\Entity\SalarieUser;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query\ResultSetMapping;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method Salarie|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,41 +20,27 @@ use Doctrine\ORM\Query\ResultSetMapping;
  * @method Salarie[]    findAll()
  * @method Salarie[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SalarieRepository extends ServiceEntityRepository
+class SalarieRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Salarie::class);
     }
 
-    // /**
-    //  * @return Salarie[] Returns an array of Salarie objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Used to upgrade (rehash) the user's password automatically over time.
+     */
+    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        if (!$user instanceof Salarie) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+        }
 
-    /*
-    public function findOneBySomeField($value): ?Salarie
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $user->setPassword($newEncodedPassword);
+        $this->_em->persist($user);
+        $this->_em->flush();
     }
-    */
+
     //TODO: ATTENTION la recherche dans le json change en fonction du SGBD
     public function findByRole(string $role): array {
         $rsm = $this->createResultSetMappingBuilder('s');
@@ -90,6 +81,15 @@ class SalarieRepository extends ServiceEntityRepository
             new Parameter('service', $service)
         ]));
         return $query->getOneOrNullResult();
+    }
+
+    public function findOneByEmail($value): ?Salarie
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.email = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
 }

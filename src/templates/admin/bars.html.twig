@@ -10,12 +10,11 @@
 
             <!-- menu profile quick info -->
             <div style="display: flex; justify-content: center" class="profile clearfix">
-{#                <div class="profile_pic">#}
-{#                    <img src="{{ app.user.avatarUrl(50) }}" alt="..." class="img-circle profile_img">#}
-{#                </div>#}
                 <div style="display: flex; flex-direction: column; align-items: center" class="profile_info">
                     <span style="font-size: 15px">Bienvenue,</span>
-                    <h2>{{ app.user.nomComplet }}</h2>
+
+                    <h2>{{ app.user.prenom }}</h2>
+                    <h2>{{ app.user.nom }}</h2>
                 </div>
             </div>
             <!-- /menu profile quick info -->
@@ -76,10 +75,10 @@
                 <ul class=" navbar-right">
                     <li class="nav-item dropdown open" style="padding-left: 15px;">
                         <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ app.user.avatarUrl(30) }}" alt="">{{ app.user.nomComplet }}
+                            {{ app.user.prenom }} {{ app.user.nom }}
                         </a>
                         <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item"  href="{{ path('app_admin_changepswd') }}"><i class="fa fa-key pull-right"></i>Changer mon mot de passe</a>
+                            <a class="dropdown-item"  href="{{ path('app_salarie_changepswd') }}"><i class="fa fa-key pull-right"></i>Changer mon mot de passe</a>
                             <a class="dropdown-item"  href="{{ path('app_logout') }}"><i class="fa fa-sign-out pull-right"></i>Déconnexion</a>
                         </div>
                     </li>

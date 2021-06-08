@@ -108,16 +108,6 @@ class UserController extends BaseController
     }
 
     /**
-     * @Route("/user/changevalidite/{id}",name="app_admin_changevalidite_user",methods={"post"})
-     * @IsGranted("ROLE_RESPONSABLE_RH")
-     */
-    public function activate(User $user)
-    {
-        $user = $this->userRepository->changeValidite($user);
-        return $this->json(["message" => "success", "value" => $user->isValid()]);
-    }
-
-    /**
      * @Route("/user/delete/{id}",name="app_admin_delete_user")
      * @IsGranted("ROLE_RESPONSABLE_RH")
      */
@@ -128,32 +118,4 @@ class UserController extends BaseController
         return $this->json(["message" => "success", "value" => true]);
     }
 
-    /**
-     * @Route("/user/changePassword",name="app_admin_changepswd")
-     * @IsGranted("ROLE_RESPONSABLE_RH")
-     */
-    public function changePswd(Request $request, TranslatorInterface $translator)
-    {
-        $user = $this->getUser();
-        $form = $this->createForm(ChangePwsdFormType::class, $user, ["translator" => $translator]);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $password =  $form["justpassword"]->getData();
-            $newPassword = $form["newpassword"]->getData();
-
-            if ($this->passwordEncoder->isPasswordValid($user, $password)) {
-                $user->setPassword($this->passwordEncoder->encodePassword($user, $newPassword));
-            } else {
-                $this->addFlash("error", "Erreur lors du changement de mot de passe");
-                return $this->render("admin/params/changeMdpForm.html.twig", ["passwordForm" => $form->createView()]);
-            }
-
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-            $this->addFlash("success", "Mot de passe modifié !");
-            return $this->redirectToRoute("app_home");
-        }
-        return $this->render("admin/params/changeMdpForm.html.twig", ["passwordForm" => $form->createView()]);
-    }
 }

@@ -23,12 +23,12 @@ class SalarieFormType extends AbstractType
             ->add('nom', TextType::class, [
                 "label" => 'Nom *',
                 "required" => false,
-                "constraints" => [ new NotBlank(["message" => "veuillez rentrer un nom"]), new Regex(["pattern" => "/^\p{L}+$/", "message" => "Veuillez entrer un nom valide (contient seulement des lettres)"])]
+                "constraints" => [ new NotBlank(["message" => "veuillez rentrer un nom"]), new Regex(["pattern" => "/^[a-zA-ZÀ-ÿ\- ]*$/", "message" => "Veuillez entrer un nom valide"])]
             ])
             ->add('prenom', TextType::class, [
                 "label" => 'Prenom *',
                 "required" => false,
-                "constraints" => [ new NotBlank(["message" => "Veuillez entrer un prénom"]), new Regex(["pattern" => "/^\p{L}+$/", "message" => "Veuillez entrer un prénom valide (contient seulement des lettres)"])]
+                "constraints" => [ new NotBlank(["message" => "Veuillez entrer un prénom"]), new Regex(["pattern" => "/^[a-zA-ZÀ-ÿ\- ]*$/", "message" => "Veuillez entrer un prénom valide"])]
             ])
             ->add('email', EmailType::class, [
                 "label" => 'E-mail *',

@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Entity\Salarie;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BaseController extends AbstractController
 {
-    protected function getUser(): User
+    protected function getSalarie(): Salarie
     {
         return parent::getUser();
     }

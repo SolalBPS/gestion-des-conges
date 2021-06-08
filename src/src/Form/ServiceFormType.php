@@ -18,7 +18,7 @@ class ServiceFormType extends AbstractType
             ->add('nom',TextType::class, [
                 "label" => "Nom",
                 "required" => false,
-                "constraints" => [ new NotBlank(["message" => "Veuillez entrer le nom du service"]), new Regex(["pattern" => "/^\p{L}+$/", "message" => "Veuillez entrer un nom valide"])]
+                "constraints" => [ new NotBlank(["message" => "Veuillez entrer le nom du service"]), new Regex(["pattern" => "/^[a-zA-ZÀ-ÿ\- ]*$/", "message" => "Veuillez entrer un nom valide"])]
             ])
         ;
     }

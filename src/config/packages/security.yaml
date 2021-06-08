@@ -2,11 +2,14 @@ security:
     encoders:
         App\Entity\User:
             algorithm: auto
+        App\Entity\Salarie:
+            algorithm: auto
+
     providers:
         app_user_provider:
             entity:
-                class: App\Entity\User
-                property: username
+                class: App\Entity\Salarie
+                property: email
     role_hierarchy:
         ROLE_RESPONSABLE_RH: [ROLE_RESPONSABLE_SERVICE]
         ROLE_RESPONSABLE_SERVICE: [ROLE_SALARIE]
