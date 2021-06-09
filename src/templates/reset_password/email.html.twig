@@ -1,11 +1,9 @@
-<h1>Hi!</h1>
+<h1>Bonjour, </h1>
 
-<p>
-    To reset your password, please visit
-    <a href="{{ url('app_reset_password', {token: resetToken.token}) }}">here</a>
-    This link will expire in {{ tokenLifetime|date('g') }} hour(s)..
-</p>
+<p>Votre compte RH Delko a été créé, pour initialiser votre mot de passe, veuillez cliquer sur le lien ci-dessous</p>
 
-<p>
-    Cheers!
-</p>
+<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+
+<p>Ce lien expirera dans 1 jour</p>
+
+<p>Merci et à bientôt</p>

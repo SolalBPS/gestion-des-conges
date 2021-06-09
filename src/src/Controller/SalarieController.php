@@ -49,6 +49,7 @@ class SalarieController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->salarieHelper->addSalarie($form) == true ) {
+                $this->salarieHelper->notifSalarie($form);
                 return $this->redirectToRoute("app_salarie");
             }
         }

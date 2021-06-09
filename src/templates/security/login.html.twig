@@ -48,23 +48,17 @@
 							<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 						</div>
 						<div style="margin-bottom: 18px">
-							<input type="checkbox" class="" name="_remember_me"><span>Se souvenir de moi (à faire)</span>
+						{# TODO: remember me #}
+{#							<input type="checkbox" class="" name="_remember_me"><span>Se souvenir de moi (à faire)</span>#}
 						</div>
 						<div>
 							<button class="btn btn-success submit" href="index.html">Se connecter</button>
-							<a class="reset_pass" href="{{path('app_forgot_password_request')}}">Mot de passe perdu ?</a>
+{#							<a class="reset_pass" href="{{path('app_forgot_password_request')}}">Mot de passe perdu ?</a>#}
 						</div>
 						<div class="separator">
 							{% if error %}
 								<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security', 'fr') }}</div>
 							{% endif %}
-{#							 <p class="change_link">#}
-{#								{{ "backend.login.new_site"|trans }}#}
-{#								<a href="#signup" class="to_register">#}
-{#									{{ "backend.login.create_acount"|trans }}#}
-{#								</a>#}
-{#							</p> #}
-
 							<div class="clearfix"></div>
 							<br/>
 

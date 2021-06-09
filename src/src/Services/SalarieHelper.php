@@ -16,24 +16,38 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
+use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
+use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class SalarieHelper extends AbstractController
 {
 
+    use ResetPasswordControllerTrait;
+
     private $entityManager;
     private $salarieRepository;
+    private $passwordEncoder;
+    private $resetPasswordHelper;
+    private $mailer;
 
-
-
-    public function __construct(EntityManagerInterface $entityManager, salarieRepository $salarieRepository)
+    public function __construct(EntityManagerInterface $entityManager, salarieRepository $salarieRepository, UserPasswordEncoderInterface $passwordEncoder, ResetPasswordHelperInterface $resetPasswordHelper, MailerInterface $mailer)
     {
         $this->entityManager = $entityManager;
         $this->salarieRepository = $salarieRepository;
-
+        $this->passwordEncoder = $passwordEncoder;
+        $this->resetPasswordHelper = $resetPasswordHelper;
+        $this->mailer = $mailer;
     }
 
     public function addSalarie(FormInterface $form) {
+        $randompwd = random_bytes(10);
         $service = $form["service"]->getData();
         $role = $form["roles"]->getData();
         $rhcheck = $this->salarieRepository->findOneByRole("ROLE_RESPONSABLE_RH");
@@ -51,6 +65,7 @@ class SalarieHelper extends AbstractController
             if ( $respcheck == null || $role->getRoleName() == "ROLE_SALARIE"){
                 $salarie = $form->getData();
                 $salarie->setService($service->getNom());
+                $salarie->setPassword($this->passwordEncoder->encodePassword($salarie, $randompwd));
                 if ($role->getRoleName() == "ROLE_RESPONSABLE_RH"){
                     $salarie->setRoles([$role->getRoleName(), "ROLE_RESPONSABLE_SERVICE", "ROLE_SALARIE"]);
                 } elseif ($role->getRoleName() == "ROLE_RESPONSABLE_SERVICE") {
@@ -111,5 +126,44 @@ class SalarieHelper extends AbstractController
         } else {
             $this->addFlash("error", $rhcheck->getPrenom() . " " . $rhcheck->getNom() . " est déjà défini(e) comme étant le/la responsable RH");
         }
+    }
+
+    public function notifSalarie(FormInterface $form) {
+        $emailaddr = $form["email"]->getData();
+        $user = $this->getDoctrine()->getRepository(Salarie::class)->findOneBy([
+            'email' => $emailaddr,
+        ]);
+
+        try {
+            $resetToken = $this->resetPasswordHelper->generateResetToken($user);
+        } catch (ResetPasswordExceptionInterface $e) {
+            // If you want to tell the user why a reset email was not sent, uncomment
+            // the lines below and change the redirect to 'app_forgot_password_request'.
+            // Caution: This may reveal if a user is registered or not.
+            //
+            // $this->addFlash('reset_password_error', sprintf(
+            //     'There was a problem handling your password reset request - %s',
+            //     $e->getReason()
+            // ));
+
+            return $this->redirectToRoute('app_check_email');
+        }
+
+        $email = (new TemplatedEmail())
+            ->from(new Address('rh@delko.fr', 'RH Delko'))
+            ->to($user->getEmail())
+            ->subject('Compte RH Delko : Initialisation du mot de passe')
+            ->htmlTemplate('reset_password/email.html.twig')
+            ->context([
+                'resetToken' => $resetToken,
+            ])
+        ;
+
+        $this->mailer->send($email);
+
+//        // Store the token object in session for retrieval in check-email route.
+//        $this->setTokenObjectInSession($resetToken);
+
+        $this->addFlash("success", "E-mail envoyé au salarié ajouté !");
     }
 }
