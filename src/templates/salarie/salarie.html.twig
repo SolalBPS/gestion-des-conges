@@ -70,9 +70,15 @@
                                             </a>
                                         </td>
                                         <td style="text-align:center">
-                                            <a href="{{ path('app_salarie_suppr', {'id': salarie.id}) }}" class="btn btn-danger disable-btn del-link" type="submit">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
+                                            {% if salarie.roles[0] == 'ROLE_RESPONSABLE_RH' %}
+                                                <a href="" class="btn btn-danger disable-btn" onclick="alert('Vous ne pouvez pas vous supprimer vous même ! :D'); return false;">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            {% else %}
+                                                <a href="{{ path('app_salarie_suppr', {'id': salarie.id}) }}" class="btn btn-danger disable-btn del-link" type="submit">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                 {% endfor %}

@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-
 class SalarieController extends AbstractController
 {
 
@@ -28,7 +27,6 @@ class SalarieController extends AbstractController
     private $serviceRepository;
     private $salarieHelper;
     private $passwordEncoder;
-
 
     public function __construct(EntityManagerInterface $entityManager, salarieRepository $salarieRepository, UserPasswordEncoderInterface $passwordEncoder, salarieHelper $salarieHelper, RoleRepository $roleRepository, ServiceRepository $serviceRepository)
     {

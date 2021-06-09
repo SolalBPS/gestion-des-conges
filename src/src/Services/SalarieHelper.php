@@ -156,6 +156,8 @@ class SalarieHelper extends AbstractController
             ->htmlTemplate('reset_password/email.html.twig')
             ->context([
                 'resetToken' => $resetToken,
+                'prenom' => $user->getPrenom(),
+                'nom' => $user->getNom(),
             ])
         ;
 
