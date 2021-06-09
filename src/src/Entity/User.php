@@ -162,10 +162,6 @@ class User implements UserInterface, EquatableInterface
         return $this;
     }
 
-    public function getAvatarUrl($size){
-        return "https://api.adorable.io/avatars/$size/".$this->username;
-    }
-
     function getColorCode() {
         $code = dechex(crc32($this->getUsername()));
         $code = substr($code, 0, 6);

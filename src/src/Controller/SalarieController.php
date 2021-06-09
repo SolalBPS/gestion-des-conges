@@ -104,22 +104,22 @@ class SalarieController extends AbstractController
      */
     public function changePswd(Request $request)
     {
-        $user = $this->getUser();
-        $form = $this->createForm(ChangePwsdFormType::class, $user);
+        $salarie = $this->getUser();
+        $form = $this->createForm(ChangePwsdFormType::class, $salarie);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
             $password = $form["justpassword"]->getData();
             $newPassword = $form["newpassword"]->getData();
 
-            if ($this->passwordEncoder->isPasswordValid($user, $password)) {
-                $user->setPassword($this->passwordEncoder->encodePassword($user, $newPassword));
+            if ($this->passwordEncoder->isPasswordValid($salarie, $password)) {
+                $salarie->setPassword($this->passwordEncoder->encodePassword($salarie, $newPassword));
             } else {
                 $this->addFlash("error", "Erreur lors du changement de mot de passe");
                 return $this->render("admin/params/changeMdpForm.html.twig", ["passwordForm" => $form->createView()]);
             }
 
-            $this->entityManager->persist($user);
+            $this->entityManager->persist($salarie);
             $this->entityManager->flush();
             $this->addFlash("success", "Mot de passe modifié !");
             return $this->redirectToRoute("app_home");

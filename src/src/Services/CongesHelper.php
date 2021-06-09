@@ -3,7 +3,6 @@
 
 namespace App\Services;
 
-
 use App\Repository\CongesRepository;
 use App\Repository\SalarieRepository;
 use Doctrine\ORM\EntityManagerInterface;
