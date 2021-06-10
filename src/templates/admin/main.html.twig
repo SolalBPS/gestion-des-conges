@@ -4,25 +4,9 @@
 <div style="">
     <h1> RH Delko </h1>
     <div style="border-top: 1px solid #a1a1a1;" class="ln_solid"></div>
-    <div>
-        <h2> <strong> Vous avez les rôles : </strong> </h2>
-        {% if is_granted("ROLE_SALARIE")%}
-            <a> <button class="btn btn-primary"> Salarié </button> </a>
-        {% endif %}
-
-        {% if is_granted("ROLE_RESPONSABLE_SERVICE")%}
-            <a> <button class="btn btn-primary"> Resp Service </button> </a>
-        {% endif %}
-
-        {% if is_granted("ROLE_RESPONSABLE_RH")%}
-            <a> <button class="btn btn-primary"> Resp RH </button> </a>
-        {% endif %}
-    </div>
-    <div style="border-top: 1px solid #a1a1a1;" class="ln_solid"></div>
     <div style="font-size: 20px">
         <h2> <strong> Statistiques : </strong> </h2>
         Il y a actuellement {{ services | length }} services et {{ salaries | length }} salariés enregistrés.
     </div>
-
 </div>
 {% endblock %}

@@ -28,6 +28,7 @@
                         {% if is_granted("ROLE_SALARIE") %}
                             <li><a><i class="fa fa-plane"></i> Congés <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
+                                    <li><a href="{{ path('app_conges') }}">Mes demandes</a></li>
                                     <li><a href="{{ path('app_conges_demande') }}">Faire une demande</a></li>
                                 </ul>
                             </li>

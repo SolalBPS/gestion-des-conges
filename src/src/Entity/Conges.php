@@ -54,6 +54,16 @@ class Conges
      */
     private $userId;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $etat;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $datedemande;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -139,6 +149,30 @@ class Conges
     public function setUserId(int $userId): self
     {
         $this->userId = $userId;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getDatedemande(): ?\DateTimeInterface
+    {
+        return $this->datedemande;
+    }
+
+    public function setDatedemande(\DateTimeInterface $datedemande): self
+    {
+        $this->datedemande = $datedemande;
 
         return $this;
     }

@@ -1,0 +1,66 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block title %} Demandes de congés {% endblock %}
+
+{% block contentpage %}
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h5>
+                    Liste
+                </h5>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Demandes de congés éffectuées</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a href="{{ path('app_conges_demande') }}"> <button class="btn btn-success"> Nouvelle demande </button> </a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="row">
+                            <table id="example" class="display table table-striped table-bordered dataminetables">
+                                <thead style="text-align:center">
+                                <th>éffectuée le :</th>
+                                <th>Nature</th>
+                                <th>Dates</th>
+                                <th>État</th>
+                                </thead>
+                                <tbody>
+                                {% for demande in demandes %}
+                                    {% if demande.etat == 'en attente' %}
+                                        {% set color = "#ffff99" %}
+                                    {% elseif demande.etat == 'validée' %}
+                                        {% set color = "#99ff99" %}
+                                    {% elseif demande.etat == 'refusée' %}
+                                        {% set color = "#ff6666" %}
+                                    {% endif %}
+                                    <tr style="vertical-align: middle; text-align: center">
+                                        <td style="vertical-align: middle;">{{ demande.datedemande | date("d / m / Y") }}</td>
+                                        <td style="vertical-align: middle;">{{ demande.nature }}</td>
+                                        <td>
+                                            <strong> Début : </strong> {{ demande.datedebut | date("d / m / Y") }}
+                                            <br />
+                                            <strong> Fin : </strong> &nbsp;&nbsp;&nbsp; {{ demande.datefin | date("d / m / Y") }}
+                                        </td>
+                                        <td style="vertical-align: middle; text-align: center; background-color: {{ color }}">{{ demande.etat }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

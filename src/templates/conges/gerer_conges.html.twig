@@ -1,0 +1,69 @@
+{% extends "admin/bars.html.twig" %}
+
+{% block title %} Demande de congés {% endblock %}
+
+{% block contentpage %}
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel" style="display: flex; flex-direction: column">
+                    <div style="display: flex; flex-direction: column; align-items: center" class="x_title">
+                        <h2 style="font-size: 25px" >
+                            Demande de congés
+                        </h2>
+                        <h2>
+                            <strong> De : </strong> <i class="fa fa-user"></i> {{ salarie.prenom }} {{ salarie.nom }}
+                        </h2>
+                        <h2>
+                            <strong> Effectuée le : </strong> &nbsp;<i class="fa fa-calendar"></i> &nbsp;{{ demande.datedemande | date("d / m / Y") }}
+                        </h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content" >
+                            <table style="width: auto" id="example" class="display table table-striped table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th style="width: 20%"> Nature : </th>
+                                        <td style="vertical-align: middle; width: 50%">{{ demande.nature }}</td>
+                                    </tr>
+                                    {% if demande.motif %}
+                                        <tr>
+                                            <th> Motif : </th>
+                                            <td style="vertical-align: middle; overflow-wrap: anywhere;">{{ demande.motif }}</td>
+                                        </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <th> Dates : </th>
+                                        <td style="vertical-align: middle;">
+                                            <strong> Début : </strong> &nbsp; {{ demande.datedebut | date("d / m / Y") }}, &nbsp; ({{ demande.typedatedebut }})
+                                            <br />
+                                            <strong> Fin : </strong> &nbsp; {{ demande.datefin | date("d / m / Y") }}, &nbsp; ({{ demande.typedatefin }})
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th> État : </th>
+                                        <td style="vertical-align: middle;">{{ demande.etat }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th> Décision : </th>
+                                        <td style="text-align: center">
+                                            <a class="btn btn-success" title="Valider la demande" href="{{ path('app_conges_valider') }}">
+                                                <i class="fa fa-check"></i>
+                                            </a>
+                                            <a class="btn btn-danger" title="Refuser la demande" href="{{ path('app_conges_refuser') }}">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                            <a class="btn btn-warning" title="Laisser en attente" href="{{ path('app_conges') }}">
+                                                <i class="fa fa-question-circle"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

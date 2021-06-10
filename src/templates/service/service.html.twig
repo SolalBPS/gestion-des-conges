@@ -36,14 +36,14 @@
                                 </thead>
                                 <tbody>
                                 {% for service in services %}
-                                    <tr>
-                                        <td>{{ service.nom }}</td>
-                                        <td style="text-align:center">
+                                    <tr style="text-align:center">
+                                        <td style="vertical-align: middle;">{{ service.nom }}</td>
+                                        <td>
                                             <a class="btn btn-primary" href="{{ path('app_service_modif',{"id":service.id}) }}">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                         </td>
-                                        <td style="text-align:center">
+                                        <td>
                                             <a href="{{ path('app_service_suppr', {'id': service.id}) }}" class="btn btn-danger disable-btn del-link" type="submit">
                                                 <i class="fa fa-trash"></i>
                                             </a>

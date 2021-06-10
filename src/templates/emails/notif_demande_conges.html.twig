@@ -15,5 +15,5 @@
         <strong> Date de fin : </strong>   {{ datefin }} ({{ typedatefin }})
     </p>
 
-    <a href="http://localhost/conges/demande"> Visualiser la demande </a>
+    <a href="{{ url('app_conges_gerer', { userId: userId, id: id}) }}"> Visualiser et gérer la demande </a>
 </div>
