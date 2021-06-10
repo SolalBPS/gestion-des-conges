@@ -1,17 +1,23 @@
 {% extends 'security/login.html.twig' %}
-
 {% block title %}Initialisation du compte{% endblock %}
+
+{% block bodyclass %}class="login"{% endblock %}
 
 {% block body %}
 <div class="login_wrapper">
     <div class="animate form login_form">
-        <section class="login_content">
-    <h1>Veuillez choisir votre mot de passe</h1>
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">enregistrer</button>
-    {{ form_end(resetForm) }}
+        <section class="login_content" style="font-size: 16px">
+            {{ form_start(resetForm) }}
+            <h1>Delko RH</h1>
+                {{ form_row(resetForm.plainPassword) }}
+                <button class="btn btn-primary">Enregistrer</button>
+            {{ form_end(resetForm) }}
         </section>
+        <div class="separator" style="display: flex; flex-direction: column; align-items: center;">
+            <div class="clearfix"></div>
+            <br/>
+            <img style="width: 36%" src="{{ asset('build/images/Logo-delko.png') }}" alt="logo delko">
+        </div>
     </div>
 </div>
 {% endblock %}

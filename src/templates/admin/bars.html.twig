@@ -12,9 +12,7 @@
             <div style="display: flex; justify-content: center" class="profile clearfix">
                 <div style="display: flex; flex-direction: column; align-items: center" class="profile_info">
                     <span style="font-size: 15px">Bienvenue,</span>
-
-                    <h2>{{ app.user.prenom }}</h2>
-                    <h2>{{ app.user.nom }}</h2>
+                    <h2>{{ app.user.prenom }} {{ app.user.nom }}</h2>
                 </div>
             </div>
             <!-- /menu profile quick info -->
@@ -28,28 +26,21 @@
                         <li><a href="{{ path('app_home') }}"><i class="fa fa-home"></i> Accueil </a>
                         </li>
                         {% if is_granted("ROLE_SALARIE") %}
-                            <li><a><i class="fa fa-user"></i> Congés <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-plane"></i> Congés <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{ path('app_conges_demande') }}">Faire une demande</a></li>
                                 </ul>
                             </li>
                         {% endif %}
                         {% if is_granted("ROLE_RESPONSABLE_RH") %}
-                        <li><a><i class="fa fa-user"></i> Utilisateurs <span class="fa fa-chevron-down"></span></a>
-                            <ul class="nav child_menu">
-                                <li><a href="{{ path('app_admin_users') }}">Gérer</a></li>
-                                <li><a href="{{ path('app_admin_new_user') }}">Ajouter</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a><i class="fa fa-user"></i> Services <span class="fa fa-chevron-down"></span></a>
+                        <li><a><i class="fa fa-folder"></i> Services <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
                                 <li><a href="{{ path('app_service') }}">Gérer</a></li>
                                 <li><a href="{{ path('app_service_ajout') }}">Ajouter</a></li>
                             </ul>
                         </li>
 
-                        <li><a><i class="fa fa-user"></i> Salariés <span class="fa fa-chevron-down"></span></a>
+                        <li><a><i class="fa fa-users"></i> Salariés <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
                                 <li><a href="{{ path('app_salarie') }}">Gérer</a></li>
                                 <li><a href="{{ path('app_salarie_ajout') }}">Ajouter</a></li>
