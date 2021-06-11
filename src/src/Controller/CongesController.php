@@ -63,6 +63,10 @@ class CongesController extends AbstractController
     public function manageDemande(int $userId, int $id){
         $demande = $this->congesRepository->findOneBy(["userId" => $userId, "id" => $id]);
         $salarie = $this->salarieRepository->findOneBy(["id" => $userId]);
+        if ($demande->getEtat() == "refusée" || $demande->getEtat() == "validée") {
+            $this->addFlash("error", "Une décision a déjà été prise pour cette demande");
+            return $this->redirectToRoute("app_home");
+        }
         if ($salarie == null) {
             $this->addFlash("error", "Ce salarié n'existe plus");
             return $this->redirectToRoute("app_home");
@@ -78,39 +82,39 @@ class CongesController extends AbstractController
      * @Route("/conges/valider/{userId}/{id}",name="app_conges_valider")
      * @IsGranted("ROLE_RESPONSABLE_SERVICE")
      */
-    public function validateDemandesConges(int $id, int $userId){
+    public function validateDemandesConges(int $id){
         $demande = $this->congesRepository->findOneBy(["id" => $id]);
         $demande->setEtat("validée");
         $this->entityManager->persist($demande);
         $this->entityManager->flush();
         $this->addFlash("success", "Demande validée !");
-        return $this->redirectToRoute("app_conges_gerer", ["userId" => $userId, "id" => $id]);
+        return $this->redirectToRoute("app_home");
     }
 
     /**
      * @Route("/conges/refuser/{userId}/{id}",name="app_conges_refuser")
      * @IsGranted("ROLE_RESPONSABLE_SERVICE")
      */
-    public function denyDemandesConges(int $id, int $userId){
+    public function denyDemandesConges(int $id){
         $demande = $this->congesRepository->findOneBy(["id" => $id]);
         $demande->setEtat("refusée");
         $this->entityManager->persist($demande);
         $this->entityManager->flush();
         $this->addFlash("success", "Demande refusée !");
-        return $this->redirectToRoute("app_conges_gerer", ["userId" => $userId, "id" => $id]);
+        return $this->redirectToRoute("app_home");
     }
 
     /**
      * @Route("/conges/attente/{userId}/{id}",name="app_conges_attente")
      * @IsGranted("ROLE_RESPONSABLE_SERVICE")
      */
-    public function waitingDemandesConges(int $id, int $userId){
+    public function waitingDemandesConges(int $id){
         $demande = $this->congesRepository->findOneBy(["id" => $id]);
         $demande->setEtat("en attente");
         $this->entityManager->persist($demande);
         $this->entityManager->flush();
-        $this->addFlash("success", "Demande laissée en attente !");
-        return $this->redirectToRoute("app_conges_gerer", ["userId" => $userId, "id" => $id]);
+        $this->addFlash("success", "Demande laissée en attente ! Cliquez à nouveau sur le lien que vous avez reçu par mail afin de prendre une décision");
+        return $this->redirectToRoute("app_home");
     }
 
 }

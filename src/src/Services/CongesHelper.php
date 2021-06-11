@@ -45,7 +45,7 @@ class CongesHelper extends AbstractController
         $resprh = $this->salarieRepository->findOneByRole("ROLE_RESPONSABLE_RH");
         if ($resp == null) {
             $email = (new TemplatedEmail())
-                ->from("rh@delko.fr")
+                ->from(new Address("rh@delko.fr", "RH Delko"))
                 ->to(new Address($resprh->getEmail()))
                 ->subject("Demande de congés")
                 ->htmlTemplate("emails/notif_demande_conges.html.twig")
@@ -65,7 +65,7 @@ class CongesHelper extends AbstractController
             $this->addFlash("success", "Le/La responsable RH a été notifié(e)");
         } else {
             $email = (new TemplatedEmail())
-                ->from("rh@delko.fr")
+                ->from(new Address("rh@delko.fr", "RH Delko"))
                 ->to(new Address($resp->getEmail()))
                 ->subject("Demande de congés")
                 ->htmlTemplate("emails/notif_demande_conges.html.twig")

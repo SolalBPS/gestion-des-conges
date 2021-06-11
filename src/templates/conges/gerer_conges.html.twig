@@ -5,7 +5,7 @@
 {% elseif demande.etat == 'validée' %}
     {% set color = "#99ff99" %}
 {% elseif demande.etat == 'refusée' %}
-    {% set color = "#ff6666" %}
+    {% set color = "#ff8080" %}
 {% endif %}
 
 {% block title %} Demande de congés {% endblock %}
@@ -56,13 +56,13 @@
                             <tr>
                                 <th> Décision : </th>
                                 <td style="text-align: center">
-                                    <a class="btn btn-success" title="Valider la demande" href="{{ path('app_conges_valider', {id: demande.id, userId: demande.userId}) }}">
+                                    <a class="btn btn-success" title="Valider la demande" onclick="return confirm('Êtes vous sûr de vouloir accepter la demande ?\nVous ne pourrez pas revenir sur votre décision.')" href="{{ path('app_conges_valider', {id: demande.id, userId: demande.userId}) }}">
                                         <i class="fa fa-check"></i>
                                     </a>
-                                    <a class="btn btn-danger" title="Refuser la demande" href="{{ path('app_conges_refuser', {id: demande.id, userId: demande.userId}) }}">
+                                    <a class="btn btn-danger" title="Refuser la demande" onclick="return confirm('Êtes vous sûr de vouloir refuser la demande ?\nVous ne pourrez pas revenir sur votre décision.')" href="{{ path('app_conges_refuser', {id: demande.id, userId: demande.userId}) }}">
                                         <i class="fa fa-times"></i>
                                     </a>
-                                    <a class="btn btn-warning" title="Laisser en attente" href="{{ path('app_conges_attente', {id: demande.id, userId: demande.userId}) }}">
+                                    <a class="btn btn-warning" title="Laisser en attente" onclick="return confirm('Êtes vous sûr de vouloir laisser la demande en attente pour l&#145;instant ?\nVous pourrez toujours revenir prendre votre décision en cliquant une nouvelle fois sur le lien que vous avez reçu par mail.')" href="{{ path('app_conges_attente', {id: demande.id, userId: demande.userId}) }}">
                                         <i class="fa fa-question-circle"></i>
                                     </a>
                                 </td>
@@ -70,7 +70,7 @@
                             </tbody>
                         </table>
                         <a style="width: 8%" class="btn btn-primary" href="{{ path('app_home') }}">
-                            Acceuil
+                            Accueil
                         </a>
                     </div>
                 </div>

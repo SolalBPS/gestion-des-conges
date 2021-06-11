@@ -42,7 +42,7 @@
                                     {% elseif demande.etat == 'validée' %}
                                         {% set color = "#99ff99" %}
                                     {% elseif demande.etat == 'refusée' %}
-                                        {% set color = "#ff6666" %}
+                                        {% set color = "#ff8080" %}
                                     {% endif %}
                                     <tr style="vertical-align: middle; text-align: center">
                                         <td style="vertical-align: middle;">{{ demande.datedemande | date("d / m / Y") }}</td>
