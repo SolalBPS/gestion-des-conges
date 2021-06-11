@@ -1,5 +1,13 @@
 {% extends "admin/bars.html.twig" %}
 
+{% if demande.etat == 'en attente' %}
+    {% set color = "#ffff99" %}
+{% elseif demande.etat == 'validée' %}
+    {% set color = "#99ff99" %}
+{% elseif demande.etat == 'refusée' %}
+    {% set color = "#ff6666" %}
+{% endif %}
+
 {% block title %} Demande de congés {% endblock %}
 
 {% block contentpage %}
@@ -20,47 +28,50 @@
                         </h2>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="x_content" >
-                            <table style="width: auto" id="example" class="display table table-striped table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <th style="width: 20%"> Nature : </th>
-                                        <td style="vertical-align: middle; width: 50%">{{ demande.nature }}</td>
-                                    </tr>
-                                    {% if demande.motif %}
-                                        <tr>
-                                            <th> Motif : </th>
-                                            <td style="vertical-align: middle; overflow-wrap: anywhere;">{{ demande.motif }}</td>
-                                        </tr>
-                                    {% endif %}
-                                    <tr>
-                                        <th> Dates : </th>
-                                        <td style="vertical-align: middle;">
-                                            <strong> Début : </strong> &nbsp; {{ demande.datedebut | date("d / m / Y") }}, &nbsp; ({{ demande.typedatedebut }})
-                                            <br />
-                                            <strong> Fin : </strong> &nbsp; {{ demande.datefin | date("d / m / Y") }}, &nbsp; ({{ demande.typedatefin }})
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th> État : </th>
-                                        <td style="vertical-align: middle;">{{ demande.etat }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th> Décision : </th>
-                                        <td style="text-align: center">
-                                            <a class="btn btn-success" title="Valider la demande" href="{{ path('app_conges_valider') }}">
-                                                <i class="fa fa-check"></i>
-                                            </a>
-                                            <a class="btn btn-danger" title="Refuser la demande" href="{{ path('app_conges_refuser') }}">
-                                                <i class="fa fa-times"></i>
-                                            </a>
-                                            <a class="btn btn-warning" title="Laisser en attente" href="{{ path('app_conges') }}">
-                                                <i class="fa fa-question-circle"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div style="display: flex; flex-direction: column; align-items: center" class="x_content">
+                        <table style="width: auto; margin: 1rem" id="example" class="display table table-striped table-bordered">
+                            <tbody>
+                            <tr>
+                                <th style="width: 20%"> Nature : </th>
+                                <td style="vertical-align: middle; width: 50%; text-align: center">{{ demande.nature }}</td>
+                            </tr>
+                            {% if demande.motif %}
+                                <tr>
+                                    <th> Motif : </th>
+                                    <td style="vertical-align: middle; overflow-wrap: anywhere;">{{ demande.motif }}</td>
+                                </tr>
+                            {% endif %}
+                            <tr>
+                                <th> Dates : </th>
+                                <td style="vertical-align: middle; text-align: center">
+                                    <strong> Début : </strong> &nbsp; {{ demande.datedebut | date("d / m / Y") }}, &nbsp; ({{ demande.typedatedebut }})
+                                    <br />
+                                    <strong> Fin : </strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ demande.datefin | date("d / m / Y") }}, &nbsp; ({{ demande.typedatefin }})
+                                </td>
+                            </tr>
+                            <tr>
+                                <th> État : </th>
+                                <td style="vertical-align: middle; text-align: center; background-color: {{ color }}">{{ demande.etat }}</td>
+                            </tr>
+                            <tr>
+                                <th> Décision : </th>
+                                <td style="text-align: center">
+                                    <a class="btn btn-success" title="Valider la demande" href="{{ path('app_conges_valider', {id: demande.id, userId: demande.userId}) }}">
+                                        <i class="fa fa-check"></i>
+                                    </a>
+                                    <a class="btn btn-danger" title="Refuser la demande" href="{{ path('app_conges_refuser', {id: demande.id, userId: demande.userId}) }}">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                    <a class="btn btn-warning" title="Laisser en attente" href="{{ path('app_conges_attente', {id: demande.id, userId: demande.userId}) }}">
+                                        <i class="fa fa-question-circle"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <a style="width: 8%" class="btn btn-primary" href="{{ path('app_home') }}">
+                            Acceuil
+                        </a>
                     </div>
                 </div>
             </div>

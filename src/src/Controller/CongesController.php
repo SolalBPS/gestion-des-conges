@@ -8,6 +8,7 @@ use App\Form\CongesFormType;
 use App\Repository\CongesRepository;
 use App\Repository\SalarieRepository;
 use App\Services\CongesHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,11 +23,13 @@ class CongesController extends AbstractController
     private $congesHelper;
     private $congesRepository;
     private $salarieRepository;
+    private $entityManager;
 
-    public function __construct(CongesHelper $congesHelper, CongesRepository $congesRepository, SalarieRepository $salarieRepository) {
+    public function __construct(EntityManagerInterface $entityManager, CongesHelper $congesHelper, CongesRepository $congesRepository, SalarieRepository $salarieRepository) {
         $this->congesHelper = $congesHelper;
         $this->congesRepository = $congesRepository;
         $this->salarieRepository = $salarieRepository;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -72,21 +75,42 @@ class CongesController extends AbstractController
     }
 
     /**
-     * @Route("/conges/gerer",name="app_conges_valider")
-     * @IsGranted("ROLE_SALARIE")
+     * @Route("/conges/valider/{userId}/{id}",name="app_conges_valider")
+     * @IsGranted("ROLE_RESPONSABLE_SERVICE")
      */
-    public function validateDemandesConges(){
-        $demandes = $this->congesRepository->findBy(["userId" => $this->getUser()->getId()]);
-        return $this->render("conges/conges.html.twig", ["demandes" => $demandes]);
+    public function validateDemandesConges(int $id, int $userId){
+        $demande = $this->congesRepository->findOneBy(["id" => $id]);
+        $demande->setEtat("validée");
+        $this->entityManager->persist($demande);
+        $this->entityManager->flush();
+        $this->addFlash("success", "Demande validée !");
+        return $this->redirectToRoute("app_conges_gerer", ["userId" => $userId, "id" => $id]);
     }
 
     /**
-     * @Route("/conges/gerer",name="app_conges_refuser")
-     * @IsGranted("ROLE_SALARIE")
+     * @Route("/conges/refuser/{userId}/{id}",name="app_conges_refuser")
+     * @IsGranted("ROLE_RESPONSABLE_SERVICE")
      */
-    public function denyDemandesConges(){
-        $demandes = $this->congesRepository->findBy(["userId" => $this->getUser()->getId()]);
-        return $this->render("conges/conges.html.twig", ["demandes" => $demandes]);
+    public function denyDemandesConges(int $id, int $userId){
+        $demande = $this->congesRepository->findOneBy(["id" => $id]);
+        $demande->setEtat("refusée");
+        $this->entityManager->persist($demande);
+        $this->entityManager->flush();
+        $this->addFlash("success", "Demande refusée !");
+        return $this->redirectToRoute("app_conges_gerer", ["userId" => $userId, "id" => $id]);
+    }
+
+    /**
+     * @Route("/conges/attente/{userId}/{id}",name="app_conges_attente")
+     * @IsGranted("ROLE_RESPONSABLE_SERVICE")
+     */
+    public function waitingDemandesConges(int $id, int $userId){
+        $demande = $this->congesRepository->findOneBy(["id" => $id]);
+        $demande->setEtat("en attente");
+        $this->entityManager->persist($demande);
+        $this->entityManager->flush();
+        $this->addFlash("success", "Demande laissée en attente !");
+        return $this->redirectToRoute("app_conges_gerer", ["userId" => $userId, "id" => $id]);
     }
 
 }
