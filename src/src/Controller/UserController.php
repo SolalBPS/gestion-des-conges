@@ -64,9 +64,7 @@ class UserController extends BaseController
         $form = $this->createForm(UserFormType::class, null);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var  User $user */
             $user = $form->getData();
-            /** @var Role $role */
             $password = $form["justpassword"]->getData();
             $role = $form["role"]->getData();
             $user->setAdmin(true)

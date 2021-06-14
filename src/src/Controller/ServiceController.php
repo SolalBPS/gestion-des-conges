@@ -39,7 +39,6 @@ class ServiceController extends AbstractController
      * @IsGranted("ROLE_RESPONSABLE_RH")
      */
     public function newService(Request $request){
-
         $form = $this->createForm(ServiceFormType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
