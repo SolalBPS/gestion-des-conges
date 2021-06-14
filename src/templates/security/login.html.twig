@@ -32,6 +32,27 @@
 {% block bodyclass %}class="login"
 {% endblock %}
 {% block body %}
+
+	<div style="margin: 1rem" class="right_col" role="main">
+		{% for message in app.flashes("error") %}
+			<div style="font-size: 17px; display: flex; flex-direction: column; align-items: center" class="alert alert-danger alert-dismissible " role="alert">
+				<div>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+					<strong>Erreur :</strong>
+					{{ message }}
+				</div>
+			</div>
+		{% endfor %}
+		{% for message in app.flashes("success") %}
+			<div style="font-size: 15px; display: flex; flex-direction: column" class="alert alert-success alert-dismissible " role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<strong>Succès :</strong>
+				{{ message }}
+			</div>
+		{% endfor %}
+		{% block contentpage %}{% endblock %}
+	</div>
+
 	<div>
 		<a class="hiddenanchor" id="signup"></a>
 		<a class="hiddenanchor" id="signin"></a>
@@ -69,56 +90,19 @@
 									tous droits réservés
 									<a target="_blank" href="https://www.delko.fr/"> delko.fr </a>
 								</p>
-								</p>
 							</div>
 						</div>
 						<div class="clearfix"></div>
 					</form>
 				</section>
 			</div>
-{#			<div id="register" class="animate form registration_form">#}
-{#				<section class="login_content">#}
-{#					<form>#}
-{#						<h1>#}
-{#							{{ "backend.login.create_acount"|trans }}</h1>#}
-{#						<div>#}
-{#							<input type="text" class="form-control" placeholder="Username" required=""/>#}
-{#						</div>#}
-{#						<div>#}
-{#							<input type="email" class="form-control" placeholder="Email" required=""/>#}
-{#						</div>#}
-{#						<div>#}
-{#							<input type="password" class="form-control" placeholder="Password" required=""/>#}
-{#						</div>#}
-{#						<div>#}
-{#							<a class="btn btn-default submit" href="index.html">Submit</a>#}
-{#						</div>#}
-
-{#						<div class="clearfix"></div>#}
-
-{#						<div class="separator">#}
-{#							<p class="change_link">{{ "backend.login.already_member"|trans }}#}
-{#								<a href="#signin" class="to_register">#}
-{#									{{ "backend.login.log_in"|trans }}#}
-{#								</a>#}
-{#							</p>#}
-
-{#							<div class="clearfix"></div>#}
-{#							<br/>#}
-{#							<div>#}
-{#								<h1>#}
-{#									<i class="fa fa-paw"></i>#}
-{#									ADMIN PANEL</h1>#}
-{#								<p>©{{ "now"|date("Y") }}#}
-{#									{{ "backend.login.all_rights"|trans }}#}
-{#									<a target="_blank" href="//example.com">example.com<a/></p>#}
-{#								</p>#}
-{#							</div>#}
-{#						</div>#}
-{#					</form>#}
-{#				</section>#}
-{#			</div>#}
 		</div>
 	</div>
 {% endblock %}
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+	<!-- jQuery & Bootstrap -->
+	<script src="{{ asset('vendors/jquery/dist/jquery.min.js') }}"></script>
+	<script src="{{ asset('vendors/jquery-validation/dist/jquery.validate.js') }}"></script>
+	<script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+	<!-- jQuery & Bootstrap -->
+{% endblock %}

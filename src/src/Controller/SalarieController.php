@@ -7,6 +7,7 @@ use App\Entity\Role;
 use App\Entity\Salarie;
 use App\Form\ChangePwsdFormType;
 use App\Form\SalarieFormType;
+use App\Repository\ResetPasswordRequestRepository;
 use App\Repository\RoleRepository;
 use App\Repository\SalarieRepository;
 use App\Repository\ServiceRepository;
@@ -23,12 +24,13 @@ class SalarieController extends AbstractController
 
     private $entityManager;
     private $salarieRepository;
+    private $resetPasswordRequestRepository;
     private $roleRepository;
     private $serviceRepository;
     private $salarieHelper;
     private $passwordEncoder;
 
-    public function __construct(EntityManagerInterface $entityManager, salarieRepository $salarieRepository, UserPasswordEncoderInterface $passwordEncoder, salarieHelper $salarieHelper, RoleRepository $roleRepository, ServiceRepository $serviceRepository)
+    public function __construct(EntityManagerInterface $entityManager, salarieRepository $salarieRepository, UserPasswordEncoderInterface $passwordEncoder, salarieHelper $salarieHelper, RoleRepository $roleRepository, ServiceRepository $serviceRepository, ResetPasswordRequestRepository $resetPasswordRequestRepository)
     {
         $this->entityManager = $entityManager;
         $this->salarieRepository = $salarieRepository;
@@ -36,6 +38,7 @@ class SalarieController extends AbstractController
         $this->roleRepository = $roleRepository;
         $this->serviceRepository = $serviceRepository;
         $this->salarieHelper = $salarieHelper;
+        $this->resetPasswordRequestRepository = $resetPasswordRequestRepository;
     }
 
     /**
@@ -82,6 +85,10 @@ class SalarieController extends AbstractController
      * @IsGranted("ROLE_RESPONSABLE_RH")
      */
     public function deleteSalarie(Salarie $salarie){
+        $resetpwdrequest = $this->resetPasswordRequestRepository->findOneBy(["user" => $salarie]);
+        if ($resetpwdrequest) {
+            $this->entityManager->remove($resetpwdrequest);
+        }
         $this->entityManager->remove($salarie);
         $this->entityManager->flush();
         return $this->json(["message" => "success", "value" => true]);

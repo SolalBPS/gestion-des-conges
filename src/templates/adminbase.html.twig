@@ -185,16 +185,16 @@
                                 // Delete the row
                                 dataminetables.fnDeleteRow(aPos);
                             }else if(data.value===false) {
-                                notif("warning","{{"backend.global.error"|trans }}", "{{"backend.global.an_unexpected_error"|trans }}"  );
+                                notif("warning","Erreur", "Une erreur inattendue est survenue"  );
                             }
 
 
                         }else {
-                            notif("error","{{"backend.global.error"|trans }}", "{{"backend.global.an_unexpected_error"|trans }}"  );
+                            notif("error","Erreur", "Une erreur inattendue est survenue"  );
                         }
                     },
                     error: function(xhr){
-                        notif("error","{{"backend.global.error"|trans }}", "{{"backend.global.an_unexpected_error"|trans }}"  );
+                        notif("error","Erreur", "Une erreur inattendue est survenue"  );
                     }
                 });
             }
@@ -252,11 +252,11 @@
                                 setTimeout(window.location.reload(), 2000);
                             }else {
                                 $(".main_container").prepend(data);
-                                notif("error","{{"backend.global.error"|trans }}", "{{"backend.global.an_unexpected_error"|trans }}"  );
+                                notif("error","Erreur", "Une erreur inattendue est survenue"  );
                             }
                         },
                         error: function(xhr){
-                            notif("error","{{"backend.global.error"|trans }}", "{{"backend.global.an_unexpected_error"|trans }}"  );
+                            notif("error","Erreur", "Une erreur inattendue est survenue"  );
                         }
                     });
                 }
@@ -331,11 +331,4 @@
 
         });
     </script>
-    <!-- increase readability of errors for initialisation  -->
-{#    <script>#}
-{#        $(document).ready(function () {#}
-{#            console.log("test ?");#}
-{#            $('.invalid-feedback').css("font-size", "16px");#}
-{#        });#}
-{#    </script>#}
 {% endblock %}
