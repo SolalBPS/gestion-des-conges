@@ -5,7 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Role;
 use App\Entity\Salarie;
-use App\Form\ChangePwsdFormType;
+use App\Form\ChangePasswordFormType;
 use App\Form\SalarieFormType;
 use App\Repository\ResetPasswordRequestRepository;
 use App\Repository\RoleRepository;
@@ -106,12 +106,12 @@ class SalarieController extends AbstractController
 
     /**
      * @Route("/salarie/changermdp",name="app_salarie_changepswd")
-     * @IsGranted("ROLE_RESPONSABLE_RH")
+     * @IsGranted("ROLE_SALARIE")
      */
     public function changePswd(Request $request)
     {
         $salarie = $this->getUser();
-        $form = $this->createForm(ChangePwsdFormType::class, $salarie);
+        $form = $this->createForm(ChangePasswordFormType::class, $salarie);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 

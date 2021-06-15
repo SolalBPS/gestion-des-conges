@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Salarie;
-use App\Form\ChangePasswordFormType;
+use App\Form\InitPasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -89,7 +89,9 @@ class ResetPasswordController extends AbstractController
 
         $token = $this->getTokenFromSession();
         if (null === $token) {
-            throw $this->createNotFoundException('No reset password token found in the URL or in the session.');
+            $this->addFlash("error", "Vous avez déjà initialisé votre mot de passe");
+            return $this->redirectToRoute('app_login');
+//            throw $this->createNotFoundException('No reset password token found in the URL or in the session.');
         }
 
         try {
@@ -103,7 +105,7 @@ class ResetPasswordController extends AbstractController
         }
 
         // The token is valid; allow the user to change their password.
-        $form = $this->createForm(ChangePasswordFormType::class);
+        $form = $this->createForm(InitPasswordFormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

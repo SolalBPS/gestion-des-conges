@@ -63,7 +63,7 @@ class CongesController extends AbstractController
     public function manageDemande(int $userId, int $id){
         $demande = $this->congesRepository->findOneBy(["userId" => $userId, "id" => $id]);
         $salarie = $this->salarieRepository->findOneBy(["id" => $userId]);
-        if ($demande->getEtat() == "refusée" || $demande->getEtat() == "validée") {
+        if ($demande->getEtat() !== "en attente") {
             $this->addFlash("error", "Une décision a déjà été prise pour cette demande");
             return $this->redirectToRoute("app_home");
         }

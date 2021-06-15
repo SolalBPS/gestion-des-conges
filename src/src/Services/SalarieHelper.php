@@ -66,7 +66,7 @@ class SalarieHelper extends AbstractController
                 $salarie = $form->getData();
                 $salarie->setService($service->getNom());
                 $salarie->setPassword($this->passwordEncoder->encodePassword($salarie, $randompwd));
-                if ($role->getRoleName() == "ROLE_RESPONSABLE_RH"){
+                if ($role->getRoleName() === "ROLE_RESPONSABLE_RH"){
                     $salarie->setRoles([$role->getRoleName(), "ROLE_RESPONSABLE_SERVICE", "ROLE_SALARIE"]);
                 } elseif ($role->getRoleName() == "ROLE_RESPONSABLE_SERVICE") {
                     $salarie->setRoles([$role->getRoleName(), "ROLE_SALARIE"]);

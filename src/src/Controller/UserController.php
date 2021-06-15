@@ -5,7 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Role;
 use App\Entity\User;
-use App\Form\ChangePwsdFormType;
+use App\Form\ChangePasswordFormType;
 use App\Form\UserFormType;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;

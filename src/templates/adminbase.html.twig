@@ -220,49 +220,6 @@
             }
         });
 
-        $("#grpaction").submit(function (e) {
-            e.preventDefault();
-            var ids = [];
-            var action = $("#action_select").val();
-
-            datasorttables.rows().every(function (rowIdx, tableLoop, rowLoop) {
-                var data = this.node();
-                if ($(data).find("input[name='chkgrp\[\]']").prop('checked')) {
-                    ids.push($(this.data()[0]).val());
-                }
-            });
-            if (ids.length === 0){
-                alert("{{'backend.global.no_item_selected'|trans }}");
-            }else if (action === ""){
-                alert("{{'backend.global.choice_action'|trans }}")
-            } else {
-                if (confirm("{{"backend.global.please_confirm"|trans }}")){
-                    var link = $(this).attr("action");
-                    ;
-                    $.ajax({
-                        url: link,
-                        method: 'POST',
-                        data : {
-                            action:action,
-                            ids:ids
-                        },
-                        success: function(data){
-                            if(data.message==="success"){
-                                notif("success","Reussi",data.nb +" element(s) " +action);
-                                setTimeout(window.location.reload(), 2000);
-                            }else {
-                                $(".main_container").prepend(data);
-                                notif("error","Erreur", "Une erreur inattendue est survenue"  );
-                            }
-                        },
-                        error: function(xhr){
-                            notif("error","Erreur", "Une erreur inattendue est survenue"  );
-                        }
-                    });
-                }
-            }
-        });
-
         $("body").on('DOMSubtreeModified', ".dataTables_info", function () {
 
             if ($("#select_all").is(':checked')) {

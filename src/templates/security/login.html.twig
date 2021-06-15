@@ -62,10 +62,10 @@
 					<form method="post">
 						<h1>Delko RH</h1>
 						<div>
-							<input type="text" value="{{ last_username }}" name="email" id="inputText" class="form-control" placeholder="E-mail" required autofocus>
+							<label style="font-size: 1rem" for="inputText"> E-mail </label> <input type="text" value="{{ last_username }}" name="email" id="inputText" class="form-control" required autofocus>
 						</div>
 						<div>
-							<input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
+							<label style="font-size: 1rem" for="inputPassword"> Mot de passe </label> <input type="password" name="password" id="inputPassword" class="form-control" required>
 							<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 						</div>
 						<div style="margin-bottom: 18px">
@@ -84,12 +84,12 @@
 							<br/>
 
 							<div>
-								<img style="width: 36%" src="{{ asset('build/images/Logo-delko.png') }}" alt="logo delko">
-								<p>
-									©{{ "now"|date("Y") }}
-									tous droits réservés
-									<a target="_blank" href="https://www.delko.fr/"> delko.fr </a>
-								</p>
+								<img style="width: 36%" src="{{ asset('build/images/logo-delko.png') }}" alt="logo delko">
+{#								<p>#}
+{#									©{{ "now"|date("Y") }}#}
+{#									tous droits réservés#}
+{#									<a target="_blank" href="https://www.delko.fr/"> delko.fr </a>#}
+{#								</p>#}
 							</div>
 						</div>
 						<div class="clearfix"></div>

@@ -2,51 +2,52 @@
 
 namespace App\Form;
 
+use App\Entity\Salarie;
+use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirements;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ChangePasswordFormType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class,
+            ->add("justpassword", PasswordType::class, [
+                "label" => "Mot de passe actuel",
+                "mapped" => false,
                 "required" => false,
-                'first_options' => [
-                    'attr' => ['autocomplete' => 'new-password'],
-                    'constraints' => [
-                        new NotBlank([
-                            'message' => 'Veuillez entrer un mot de passe',
-                        ]),
-                        new Length([
-//                            'min' => 6,
-//                            'minMessage' => 'Your password should be at least {{ limit }} characters',
-                            // max length allowed by Symfony for security reasons
-                            'max' => 4096,
-                        ]),
-                    ],
-                    'label' => 'Mot de passe',
-                ],
-                'second_options' => [
-                    'attr' => ['autocomplete' => 'new-password'],
-                    'label' => 'Répétez le mot de passe',
-                ],
-                'invalid_message' => 'Les deux mots de passes entrés doivent être identiques',
-                // Instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
+                "constraints" => [
+                    new NotBlank(["message" => "Veuillez entrer le mot de passe actuel"]),
+                    new UserPassword(["message" => "Le mot de passe entré ne correspond pas au mot de passe actuel"])
+                ]
             ])
-        ;
+            ->add("newpassword", RepeatedType::class, [
+                "mapped" => false,
+                "required" => false,
+                'invalid_message' => "Mots de passes non identiques",
+                "type" => PasswordType::class,
+                "constraints" => [
+                    new NotBlank(["message" => "Ne doit pas être vide"]),
+                    new PasswordRequirements([
+                        'minLength' => 6,
+                        'requireLetters' => true,
+                        'requireNumbers' => true,
+                    ])
+                ],
+                "first_options"  => ['label' => "Nouveau mot de passe"],
+                "second_options"  => ['label' => "Confirmez le nouveau mot de passe"]
+            ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([]);
+        $resolver->setDefaults([
+            'data_class' => Salarie::class,
+        ]);
     }
 }
