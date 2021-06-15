@@ -2,12 +2,10 @@
 
 {% block contentpage %}
 <div style="">
-    <h1> RH Delko </h1>
+    <h1 style="text-align: center"> Congés des collègues </h1>
     <div style="border-top: 1px solid #a1a1a1;" class="ln_solid"></div>
-    <div style="font-size: 20px">
-        <h2> <strong> Statistiques : </strong> </h2>
-        Il y a actuellement {{ services | length }} services et {{ salaries | length }} salariés enregistrés. <br/>
-        <a href="{{ calendarlink }}">calendrier</a>
+    <div style="color: #0f0f0f" id="calendar-holder">
     </div>
+
 </div>
 {% endblock %}

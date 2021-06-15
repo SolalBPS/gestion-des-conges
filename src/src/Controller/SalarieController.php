@@ -7,6 +7,7 @@ use App\Entity\Role;
 use App\Entity\Salarie;
 use App\Form\ChangePasswordFormType;
 use App\Form\SalarieFormType;
+use App\Repository\CongesRepository;
 use App\Repository\ResetPasswordRequestRepository;
 use App\Repository\RoleRepository;
 use App\Repository\SalarieRepository;
@@ -29,8 +30,9 @@ class SalarieController extends AbstractController
     private $serviceRepository;
     private $salarieHelper;
     private $passwordEncoder;
+    private $congesRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, salarieRepository $salarieRepository, UserPasswordEncoderInterface $passwordEncoder, salarieHelper $salarieHelper, RoleRepository $roleRepository, ServiceRepository $serviceRepository, ResetPasswordRequestRepository $resetPasswordRequestRepository)
+    public function __construct(EntityManagerInterface $entityManager, salarieRepository $salarieRepository, CongesRepository $congesRepository,UserPasswordEncoderInterface $passwordEncoder, salarieHelper $salarieHelper, RoleRepository $roleRepository, ServiceRepository $serviceRepository, ResetPasswordRequestRepository $resetPasswordRequestRepository)
     {
         $this->entityManager = $entityManager;
         $this->salarieRepository = $salarieRepository;
@@ -39,6 +41,7 @@ class SalarieController extends AbstractController
         $this->serviceRepository = $serviceRepository;
         $this->salarieHelper = $salarieHelper;
         $this->resetPasswordRequestRepository = $resetPasswordRequestRepository;
+        $this->congesRepository = $congesRepository;
     }
 
     /**
@@ -86,8 +89,12 @@ class SalarieController extends AbstractController
      */
     public function deleteSalarie(Salarie $salarie){
         $resetpwdrequest = $this->resetPasswordRequestRepository->findOneBy(["user" => $salarie]);
+        $demande = $this->congesRepository->findOneBy(["userId" => $salarie->getId()]);
         if ($resetpwdrequest) {
             $this->entityManager->remove($resetpwdrequest);
+        }
+        if ($demande) {
+            $this->entityManager->remove($demande);
         }
         $this->entityManager->remove($salarie);
         $this->entityManager->flush();

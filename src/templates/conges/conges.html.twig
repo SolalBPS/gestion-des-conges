@@ -52,7 +52,7 @@
                                             <br />
                                             <strong> Fin : </strong> &nbsp;&nbsp;&nbsp; {{ demande.datefin | date("d / m / Y") }}
                                         </td>
-                                        <td style="vertical-align: middle; text-align: center; background-color: {{ color }}">{{ demande.etat }}</td>
+                                        <td style="vertical-align: middle; text-align: center; background-color: {{ color }}">{{ demande.etat }} {% if demande.etat == "validée" %} <a href=""> <button class="btn btn-success"> <i class="fa fa-calendar"></i> </button> </a> {% endif %} </td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

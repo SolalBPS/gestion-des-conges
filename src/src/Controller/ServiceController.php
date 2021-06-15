@@ -49,9 +49,8 @@ class ServiceController extends AbstractController
                 $this->entityManager->flush();
                 $this->addFlash("success", "Service ajouté");
                 return $this->redirectToRoute("app_service");
-            } else {
-                $this->addFlash("error", "Ce service existe déjà");
             }
+            $this->addFlash("error", "Ce service existe déjà");
         }
         return $this->render("service/ajoutservice.html.twig", ["serviceForm" => $form->createView()]);
     }
@@ -71,9 +70,8 @@ class ServiceController extends AbstractController
                 $this->entityManager->flush();
                 $this->addFlash("success", "Service modifié");
                 return $this->redirectToRoute("app_service");
-            } else {
-                $this->addFlash("error", "Ce service existe déjà");
             }
+            $this->addFlash("error", "Ce service existe déjà");
         }
         return $this->render("service/modifservice.html.twig", ["serviceForm" => $form->createView()]);
     }

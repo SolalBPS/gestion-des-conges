@@ -39,6 +39,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <!-- include summernote css/js -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <!-- FullCalendar -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.css">
 {% endblock %}
 
 {% block bodyclass %} class="nav-md" {% endblock %}
@@ -106,6 +110,12 @@
     <script src="{{ asset('vendors/jquery.tagsinput/src/jquery.tagsinput.js') }}"></script>
     <!-- Summernote -->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <!-- FullCalendar -->
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.js"></script>
+
     <script>
         var dataminetables = $('.dataminetables').dataTable({
             "language": {
@@ -288,4 +298,45 @@
 
         });
     </script>
+    <!-- FullCalendar  -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let calendarEl = document.getElementById('calendar-holder');
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'fr',
+                defaultView: 'dayGridMonth',
+                displayEventTime : false,
+                eventSources: [
+                    {
+                        url: "/fc-load-events",
+                        method: "POST",
+                        extraParams: {
+                            filters: JSON.stringify({})
+                        },
+                        failure: () => {
+                            alert("Il y a eu une erreur lors du chargement du calendrier");
+                        },
+                    },
+                ],
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'prevYear,nextYear',
+                },
+                buttonText: {
+                    today:    "Aujourd'hui",
+                    month:    'Mois',
+                    week:     'Semaine',
+                    day:      'Jour',
+                    list:     'Liste'
+                },
+                plugins: ['dayGrid'], // https://fullcalendar.io/docs/plugin-index
+                timeZone: 'UTC',
+                eventColor: '#0072b9',
+                eventTextColor: '#ffd500',
+            });
+            calendar.render();
+        });
+    </script>
+
 {% endblock %}
