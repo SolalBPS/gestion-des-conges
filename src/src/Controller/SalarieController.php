@@ -13,6 +13,7 @@ use App\Repository\RoleRepository;
 use App\Repository\SalarieRepository;
 use App\Repository\ServiceRepository;
 use App\Services\SalarieHelper;
+use Colors\RandomColor;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -84,17 +85,36 @@ class SalarieController extends AbstractController
     }
 
     /**
+     * @Route("/salarie/modifier/couleur/{id}",name="app_salarie_modif_couleur")
+     * @IsGranted("ROLE_SALARIE")
+     */
+    public function editSalarieColor(Request $request, Salarie $salarie)
+    {
+        $randomcolor = RandomColor::one(array(
+            'luminosity' => 'dark',
+            'format' => 'hex'
+        ));
+        $salarie->setColor($randomcolor);
+        $this->entityManager->persist($salarie);
+        $this->entityManager->flush();
+        $this->addFlash("success", "Couleur changée !");
+        return $this->redirectToRoute("app_home");
+    }
+
+    /**
      * @Route("/salarie/suppression/{id}",name="app_salarie_suppr")
      * @IsGranted("ROLE_RESPONSABLE_RH")
      */
     public function deleteSalarie(Salarie $salarie){
         $resetpwdrequest = $this->resetPasswordRequestRepository->findOneBy(["user" => $salarie]);
-        $demande = $this->congesRepository->findOneBy(["userId" => $salarie->getId()]);
+        $demandes = $this->congesRepository->findBy(["userId" => $salarie->getId()]);
         if ($resetpwdrequest) {
             $this->entityManager->remove($resetpwdrequest);
         }
-        if ($demande) {
-            $this->entityManager->remove($demande);
+        if (!empty($demandes)) {
+            foreach ($demandes as $demande) {
+                $this->entityManager->remove($demande);
+            }
         }
         $this->entityManager->remove($salarie);
         $this->entityManager->flush();

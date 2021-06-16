@@ -1,9 +1,14 @@
 {% extends "admin/bars.html.twig" %}
 
 {% block contentpage %}
-<div>
-    <h1 style="text-align: center"> Congés des salariés </h1>
-    <div style="border-top: 1px solid #a1a1a1;" class="ln_solid"></div>
-    <div style="color: #0f0f0f; font-size: 15px" id="calendar-holder"></div>
-</div>
+    <div>
+        <h1 style="text-align: center">
+            Calendrier des congés
+        </h1>
+        <div style="border-top: 1px solid #a1a1a1;" class="ln_solid"></div>
+        <a style="background-color: {{ app.user.color }}; border-color: {{ app.user.color }}" class="btn btn-primary" href="{{ path('app_salarie_modif_couleur',{"id":app.user.id}) }}">
+            <i class="fa fa-paint-brush"></i> Changer ma couleur !
+        </a>
+        <div style="color: #0f0f0f; font-size: 15px" id="calendar-holder"></div>
+    </div>
 {% endblock %}

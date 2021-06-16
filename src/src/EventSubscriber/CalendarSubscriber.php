@@ -31,19 +31,15 @@ class CalendarSubscriber implements EventSubscriberInterface
     {
         $conges = $this->congesRepository->findBy(["etat" => "validée"]);
         foreach ($conges as $demande) {
-            $randomcolor = RandomColor::one(array(
-                'luminosity' => 'dark',
-                'format' => 'hex'
-            ));
             $user = $this->salarieRepository->findOneBy(["id" => $demande->getUserId()]);
             if ($user) {
                 $event = new Event(
                     $user->getPrenom() . " " . $user->getNom(),
                     $demande->getDatedebut(),
-                    $demande->getDatefin()
+                    new \DateTime($demande->getDatefin()->format("Y-m-d")."01:00:00")
                 );
-                $event->setAllDay(true);
-                $event->addOption("color", $randomcolor);
+//                $event->setAllDay(true);
+                $event->addOption("color", $user->getColor());
                 $event->addOption("textColor", "white");
                 $calendar->addEvent($event);
             }

@@ -57,6 +57,11 @@ class Salarie implements UserInterface
      */
     private $service;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $color;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -181,6 +186,18 @@ class Salarie implements UserInterface
     public function setService(string $service): self
     {
         $this->service = $service;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

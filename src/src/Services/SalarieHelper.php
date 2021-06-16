@@ -10,6 +10,7 @@ use App\Form\SalarieFormType;
 use App\Repository\RoleRepository;
 use App\Repository\SalarieRepository;
 use App\Repository\ServiceRepository;
+use Colors\RandomColor;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,6 +49,10 @@ class SalarieHelper extends AbstractController
 
     public function addSalarie(FormInterface $form) {
         $randompwd = random_bytes(10);
+        $randomcolor = RandomColor::one(array(
+            'luminosity' => 'dark',
+            'format' => 'hex'
+        ));
         $service = $form["service"]->getData();
         $role = $form["roles"]->getData();
         $rhcheck = $this->salarieRepository->findOneByRole("ROLE_RESPONSABLE_RH");
@@ -57,18 +62,19 @@ class SalarieHelper extends AbstractController
             $this->addFlash("error", "Cette addresse e-mail est déjà associée à un salarié");
             return false;
         }
-        if ($service->getNom() !== "Ressources humaines" && $role->getRoleName() == "ROLE_RESPONSABLE_RH") {
+        if ($service->getNom() !== "Ressources humaines" && $role->getRoleName() === "ROLE_RESPONSABLE_RH") {
             $this->addFlash("error", "Le/La responsable RH peut seulement être affecté(e) au service Ressources humaines");
             return false;
         }
         if ($rhcheck == false || $role->getRoleName() !== "ROLE_RESPONSABLE_RH" ){
-            if ( $respcheck == null || $role->getRoleName() == "ROLE_SALARIE"){
+            if ( $respcheck == null || $role->getRoleName() === "ROLE_SALARIE"){
                 $salarie = $form->getData();
                 $salarie->setService($service->getNom());
                 $salarie->setPassword($this->passwordEncoder->encodePassword($salarie, $randompwd));
+                $salarie->setColor($randomcolor);
                 if ($role->getRoleName() === "ROLE_RESPONSABLE_RH"){
                     $salarie->setRoles([$role->getRoleName(), "ROLE_RESPONSABLE_SERVICE", "ROLE_SALARIE"]);
-                } elseif ($role->getRoleName() == "ROLE_RESPONSABLE_SERVICE") {
+                } elseif ($role->getRoleName() === "ROLE_RESPONSABLE_SERVICE") {
                     $salarie->setRoles([$role->getRoleName(), "ROLE_SALARIE"]);
                 } else {
                     $salarie->setRoles([$role->getRoleName()]);
@@ -96,12 +102,12 @@ class SalarieHelper extends AbstractController
             $this->addFlash("error", "Cette addresse e-mail est déjà associée à un salarié");
             return false;
         }
-        if ($service->getNom() !== "Ressources humaines" && $role->getRoleName() == "ROLE_RESPONSABLE_RH") {
+        if ($service->getNom() !== "Ressources humaines" && $role->getRoleName() === "ROLE_RESPONSABLE_RH") {
             $this->addFlash("error", "Le/La responsable RH peut seulement être affecté(e) au service Ressources humaines");
             return false;
         }
         if ($rhcheck == null || $role->getRoleName() !== "ROLE_RESPONSABLE_RH" || $rhcheck->getId() == $salarie->getId()) {
-            if ($respcheck == null || $role->getRoleName() == "ROLE_SALARIE" || $respcheck->getId() == $salarie->getId()) {
+            if ($respcheck == null || $role->getRoleName() === "ROLE_SALARIE" || $respcheck->getId() == $salarie->getId()) {
                 $salarie->setNom($form["nom"]->getData());
                 $salarie->setPrenom($form["prenom"]->getData());
                 $salarie->setEmail($form["email"]->getData());
@@ -109,9 +115,9 @@ class SalarieHelper extends AbstractController
                 $service = $form["service"]->getData();
                 $salarie->setService($service->getNom());
                 $roles = $form["roles"]->getData();
-                if ($roles->getRoleName() == "ROLE_RESPONSABLE_RH") {
+                if ($roles->getRoleName() === "ROLE_RESPONSABLE_RH") {
                     $salarie->setRoles([$roles->getRoleName(), "ROLE_RESPONSABLE_SERVICE", "ROLE_SALARIE"]);
-                } elseif ($roles->getRoleName() == "ROLE_RESPONSABLE_SERVICE") {
+                } elseif ($roles->getRoleName() === "ROLE_RESPONSABLE_SERVICE") {
                     $salarie->setRoles([$roles->getRoleName(), "ROLE_SALARIE"]);
                 } else {
                     $salarie->setRoles([$roles->getRoleName()]);

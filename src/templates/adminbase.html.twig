@@ -151,7 +151,7 @@
                 url: link,
                 method: 'POST',
                 success: function(data){
-                    if(data.message=="success"){
+                    if(data.message==="success"){
                         if(data.value===true){
                             btn.removeClass("btn-success");
                             btn.removeClass("btn-warning");
@@ -165,8 +165,6 @@
                             btn.html("<i class=\"fa fa-times\"></i>");
                             notif("warning","Reussi","Desactivée");
                         }
-
-
                     }else {
                         notif("error","Erreur","Une erreur innatendue est survenue.");
                     }
@@ -187,7 +185,7 @@
                     url: link,
                     method: 'POST',
                     success: function(data){
-                        if(data.message=="success"){
+                        if(data.message==="success"){
                             if(data.value===true){
                                 notif("success","Reussi","Suprimmé");
                                 // Get the position of the current data from the node
@@ -209,7 +207,6 @@
                 });
             }
         });
-
 
         function notif(type,titre,text) {
             new PNotify({
@@ -319,7 +316,7 @@
                             filters: JSON.stringify({})
                         },
                         failure: () => {
-                            alert("Il y a eu une erreur lors du chargement du calendrier");
+                            alert("Erreur lors du chargement du calendrier");
                         },
                     },
                 ],
