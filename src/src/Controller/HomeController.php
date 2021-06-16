@@ -27,11 +27,11 @@ class HomeController extends AbstractController
      * @Route("/",name="app_homepage")
      */
     public function homepage(){
-        return $this->redirectToRoute("app_login");
+        return $this->redirectToRoute("app_home");
     }
 
     /**
-     * @Route("/home",name="app_home")
+     * @Route("/accueil",name="app_home")
      */
     public function index(){
         $salaries = $this->salarieRepository->findAll();

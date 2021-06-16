@@ -7,6 +7,7 @@ use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
 use CalendarBundle\Event\CalendarEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Colors\RandomColor;
 
 class CalendarSubscriber implements EventSubscriberInterface
 {
@@ -30,6 +31,10 @@ class CalendarSubscriber implements EventSubscriberInterface
     {
         $conges = $this->congesRepository->findBy(["etat" => "validée"]);
         foreach ($conges as $demande) {
+            $randomcolor = RandomColor::one(array(
+                'luminosity' => 'dark',
+                'format' => 'hex'
+            ));
             $user = $this->salarieRepository->findOneBy(["id" => $demande->getUserId()]);
             if ($user) {
                 $event = new Event(
@@ -38,6 +43,8 @@ class CalendarSubscriber implements EventSubscriberInterface
                     $demande->getDatefin()
                 );
                 $event->setAllDay(true);
+                $event->addOption("color", $randomcolor);
+                $event->addOption("textColor", "white");
                 $calendar->addEvent($event);
             }
         }

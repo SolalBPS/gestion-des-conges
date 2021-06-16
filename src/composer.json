@@ -8,6 +8,7 @@
         "ext-iconv": "*",
         "knplabs/knp-paginator-bundle": "^5.2",
         "liip/imagine-bundle": "^2.3",
+        "mistic100/randomcolor": "^1.0",
         "rollerworks/password-strength-validator": "^1.4",
         "sensio/framework-extra-bundle": "^5.5",
         "spatie/calendar-links": "^1.6",

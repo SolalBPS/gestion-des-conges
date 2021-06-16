@@ -40,8 +40,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $this->entityManager = $entityManager;
     }
 
-
-
     public function supports(Request $request)
     {
         $this->login_route = $request->attributes->get('_route');
@@ -88,10 +86,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $this->passwordEncoder->isPasswordValid($user,$credentials["password"]);
     }
 
-
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-
         if ($targetPath = $this->getTargetPath($request->getSession(),$providerKey)){
             return new RedirectResponse($targetPath);
         }

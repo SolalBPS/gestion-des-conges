@@ -136,6 +136,9 @@
             "./config/routes/liip_imagine.yaml"
         ]
     },
+    "mistic100/randomcolor": {
+        "version": "1.0.4"
+    },
     "monolog/monolog": {
         "version": "2.1.0"
     },
