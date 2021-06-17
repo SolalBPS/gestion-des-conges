@@ -80,20 +80,18 @@
     <!-- page content -->
     <div class="right_col" role="main">
         {% for message in app.flashes("error") %}
-            <div style="font-size: 20px" class="alert alert-danger alert-dismissible " role="alert">
+            <div style="font-size: 20px; display: flex" class="alert alert-danger alert-dismissible " role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <strong>Erreur :</strong> {{ message }}
+                <strong>Erreur :</strong> &nbsp;{{ message }}
             </div>
         {% endfor %}
         {% for message in app.flashes("success") %}
-            <div style="font-size: 20px" class="alert alert-success alert-dismissible " role="alert">
+            <div style="font-size: 20px; display: flex" class="alert alert-success alert-dismissible " role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <strong>Succès :</strong> {{ message }}
+                <strong>Succès :</strong> &nbsp;{{ message }}
             </div>
         {% endfor %}
         {% block contentpage %}{% endblock %}
     </div>
     <!-- /page content -->
 {% endblock %}
-
-{#display: flex; flex-direction: column#}
