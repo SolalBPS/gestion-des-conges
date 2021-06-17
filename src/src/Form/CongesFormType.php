@@ -45,13 +45,12 @@ class CongesFormType extends AbstractType
                 "label" => "Date de début",
                 "required" => false,
                 "widget" => "choice",
-                "days" => range(1, 31),
-                "months" => range(1, 12),
+                "format" => "ddMMMMyyyy",
                 "years" => range(date("Y"), date("Y")+5),
                 "placeholder" => [
                     "day" => "Jour", "month" => "Mois", "year" => "Année"
                 ],
-                "invalid_message" => "Veuillez choisir une date valide (jour / mois / année)",
+                "invalid_message" => "Veuillez choisir une date valide (jour / mois / année) (Attention aux 31)",
                 "constraints" => [
                     new NotBlank(["message" => "Veuillez choisir la date de début des congés"]),
                     new GreaterThanOrEqual("today", null, "La date de début des congés doit être postérieure ou égale à la date d'aujour'hui")
@@ -75,13 +74,12 @@ class CongesFormType extends AbstractType
                 "label" => "Date de fin",
                 "required" => false,
                 "widget" => "choice",
-                "days" => range(1, 31),
-                "months" => range(1, 12),
+                "format" => "ddMMMMyyyy",
                 "years" => range(date("Y"), date("Y")+5),
                 "placeholder" => [
                     "day" => "Jour", "month" => "Mois", "year" => "Année"
                 ],
-                "invalid_message" => "Veuillez choisir une date valide (jour / mois / année)",
+                "invalid_message" => "Veuillez choisir une date valide (jour / mois / année) (Attention aux 31)",
                 "constraints" => [
                     new NotBlank(["message" => "Veuillez choisir la date de fin des congés"]),
                     new GreaterThanOrEqual("today", null, "La date de fin des congés doit être postérieure ou égale à la date d'aujourd'hui"),
