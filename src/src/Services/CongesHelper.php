@@ -43,7 +43,7 @@ class CongesHelper extends AbstractController
         //envoie une notif par mail
         $resp = $this->salarieRepository->findOneByRoleAndService("ROLE_RESPONSABLE_SERVICE", $this->getUser()->getService());
         $resprh = $this->salarieRepository->findOneByRole("ROLE_RESPONSABLE_RH");
-        if ($resp == null) {
+        if ($resp === null) {
             $email = (new TemplatedEmail())
                 ->from(new Address("rh@delko.fr", "RH Delko"))
                 ->to(new Address($resprh->getEmail()))

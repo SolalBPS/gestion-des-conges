@@ -614,7 +614,7 @@
     weekText: 'Sem.',
     allDayText: 'Toute la journée',
     moreLinkText: 'en plus',
-    noEventsText: 'Aucun événement à afficher',
+    noEventsText: 'Aucun congés à afficher',
   };
 
   var l30 = {
@@ -636,7 +636,7 @@
     weekText: 'Sm',
     allDayText: 'Toute la journée',
     moreLinkText: 'en plus',
-    noEventsText: 'Aucun événement à afficher',
+    noEventsText: 'Aucun congés à afficher',
   };
 
   var l31 = {
@@ -658,7 +658,7 @@
     weekText: 'Sem.',
     allDayText: 'Toute la journée',
     moreLinkText: 'en plus',
-    noEventsText: 'Aucun événement à afficher',
+    noEventsText: 'Aucun congés à afficher',
   };
 
   var l32 = {
