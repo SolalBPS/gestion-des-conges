@@ -46,7 +46,7 @@
                                     {% endif %}
                                     <tr style="vertical-align: middle; text-align: center">
                                         <td style="vertical-align: middle;">{{ demande.datedemande | date("d / m / Y") }}</td>
-                                        <td style="vertical-align: middle;">{{ demande.nature }}</td>
+                                        <td style="vertical-align: middle;">{{ demande.nature }} {% if demande.motif %} <br /> <strong> Motif :</strong> {{ demande.motif }} {% endif %}</td>
                                         <td>
                                             <strong> Début : </strong> {{ demande.datedebut | date("d / m / Y") }}
                                             <br />

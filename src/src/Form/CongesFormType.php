@@ -15,6 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\AbstractComparison;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CongesFormType extends AbstractType
@@ -38,7 +39,7 @@ class CongesFormType extends AbstractType
             ->add('motif', TextType::class, [
                 "label" => "Motif des congés exceptionnels conventionnel",
                 "required" => false,
-//                "constraints" => [ new NotBlank(["message" => "Veuillez entrer le motif"])]
+                "constraints" => [ new Length([ "max" => 100, "maxMessage" => "Veuillez entrer un motif bref et concis"]) ]
             ])
 
             ->add('datedebut', DateType::class, [

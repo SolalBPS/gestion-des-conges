@@ -1,5 +1,271 @@
 {% extends "admin/bars.html.twig" %}
 
+{% block stylesheets %}
+    <!-- Bootstrap -->
+    <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="{{ asset('vendors/nprogress/nprogress.css') }}" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
+    <!-- Datatables -->
+    <link href="{{ asset('vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <!-- PNotify -->
+    <link href="{{ asset('vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <!-- include summernote css/js -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <!-- FullCalendar -->
+    <link href="{{ asset('vendors/fullcalendar5.8/lib/main.css') }}" rel="stylesheet">
+{% endblock %}
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('vendors/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendors/jquery-validation/dist/jquery.validate.js') }}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- FastClick -->
+    <script src="{{ asset('vendors/fastclick/lib/fastclick.js')}}"></script>
+    <!-- NProgress -->
+    <script src="{{ asset('vendors/nprogress/nprogress.js')}}"></script>
+    <!-- DateJS -->
+    <script src="{{ asset('vendors/DateJS/build/date.js')}}"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="{{ asset('build/js/custom.min.js')}}"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+    <!-- PNotify -->
+    <script src="{{ asset('vendors/pnotify/dist/pnotify.js') }}"></script>
+    <script src="{{ asset('vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
+    <script src="{{ asset('vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
+    <!-- select-custom Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <!-- Tagsinput -->
+    <script src="{{ asset('vendors/jquery.tagsinput/src/jquery.tagsinput.js') }}"></script>
+    <!-- Summernote -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <!-- FullCalendar -->
+    <script src="{{ asset('vendors/fullcalendar5.8/lib/main.js') }}"></script>
+    <script src="{{ asset('vendors/fullcalendar5.8/lib/locales-all.js') }}"></script>
+
+    <script>
+        var dataminetables = $('.dataminetables').dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/French.json"
+            }
+        });
+
+        var datasorttables = $('.datasorttables').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/French.json"
+            }
+        });
+
+        var datanotminetables = $('.datanotminetables').dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/French.json"
+            }
+        });
+
+        var datanotsorttables = $('.datanotsorttables').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/French.json"
+            }
+        });
+
+
+        $(document).on("click",".activate-link",function (e) {
+            /*$(".activate-link").click(function(e) {*/
+            e.preventDefault();
+            var btn = $(this);
+            var link = $(this).attr("href");
+            $.ajax({
+                url: link,
+                method: 'POST',
+                success: function(data){
+                    if(data.message==="success"){
+                        if(data.value===true){
+                            btn.removeClass("btn-success");
+                            btn.removeClass("btn-warning");
+                            btn.addClass("btn-success");
+                            btn.html("<i class=\"fa fa-check\"></i>");
+                            notif("success","Reussi","Activée");
+                        }else if(data.value===false) {
+                            btn.removeClass("btn-success");
+                            btn.removeClass("btn-warning");
+                            btn.addClass("btn-warning");
+                            btn.html("<i class=\"fa fa-times\"></i>");
+                            notif("warning","Reussi","Desactivée");
+                        }
+                    }else {
+                        notif("error","Erreur","Une erreur innatendue est survenue.");
+                    }
+                },
+                error: function(xhr){
+                    notif("error","Erreur","Une erreur innatendue est survenue");
+                }
+            });
+        });
+
+        $(document).on("click",".del-link",function (e) {
+            /*$(".activate-link").click(function(e) {*/
+            e.preventDefault();
+            if(confirm("Voulez vous vraiment supprimer ?")){
+                var btn = $(this);
+                var link = $(this).attr("href");
+                $.ajax({
+                    url: link,
+                    method: 'POST',
+                    success: function(data){
+                        if(data.message==="success"){
+                            if(data.value===true){
+                                notif("success","Succès","Suprimmé");
+                                // Get the position of the current data from the node
+                                var aPos = dataminetables.fnGetPosition( btn.closest('tr').get(0) );
+                                // Delete the row
+                                dataminetables.fnDeleteRow(aPos);
+                            }else if(data.value===false) {
+                                notif("warning","Erreur", "Une erreur inattendue est survenue"  );
+                            }
+
+
+                        }else {
+                            notif("error","Erreur", "Une erreur inattendue est survenue"  );
+                        }
+                    },
+                    error: function(xhr){
+                        notif("error","Erreur", "Une erreur inattendue est survenue"  );
+                    }
+                });
+            }
+        });
+
+        function notif(type,titre,text) {
+            new PNotify({
+                title: titre,
+                text: text,
+                type: type,
+                styling: 'bootstrap3'
+            });
+        }
+        // transform all select
+        $('select').selectpicker();
+        $('#select_all').click(function() {
+            if ($(this).is(':checked')) {
+                $('.chkgrp').prop('checked', true);
+            } else {
+                $('.chkgrp').prop('checked', false);
+            }
+        });
+        $("body").on('DOMSubtreeModified', ".dataTables_info", function () {
+            if ($("#select_all").is(':checked')) {
+                $('#select_all').prop('checked', false);
+            }
+        });
+        {% block summernote %}
+        $(document).ready(function() {
+            $('.summernote').summernote();
+        });
+        {% endblock  %}
+
+        $('.custom-file-input').on('change', function(event) {
+            var inputFile = event.currentTarget;
+            $(inputFile).parent()
+                .find('.custom-file-label')
+                .html(inputFile.files[0].name);
+        });
+    </script>
+    <!-- CongesForm -->
+    <script>
+        $(document).ready(function () {
+            if ($('select[name="conges_form[nature]"]').val() === "congés exceptionnels conventionnel")  {
+                $('input[name="conges_form[motif]"]').show().attr("required", "required");
+                $('label[for="conges_form_motif"]').show();
+            } else {
+                $('input[name="conges_form[motif]"]').hide().removeAttr("required").val(null);
+                $('label[for="conges_form_motif"]').hide();
+            }
+        });
+        $('select[name="conges_form[nature]"]').on('change', function() {
+            if ($(this).val() === "congés exceptionnels conventionnel")  {
+                $('input[name="conges_form[motif]"]').show().attr("required", "required");
+                $('label[for="conges_form_motif"]').show();
+            } else {
+                $('input[name="conges_form[motif]"]').hide().removeAttr("required").val(null);
+                $('label[for="conges_form_motif"]').hide();
+            }
+        });
+    </script>
+    <!-- beautifull DateType fields errors  -->
+    <script>
+        $(document).ready(function () {
+            if ($('#conges_form_datedebut').hasClass("is-invalid")) {
+                $('#conges_form_datedebut').css({"border-color": "white", "background-image": "none"});
+                $('[data-id="conges_form_datedebut_day"]').css("border", "solid #b94a48 1px");
+                $('[data-id="conges_form_datedebut_month"]').css("border", "solid #b94a48 1px");
+                $('[data-id="conges_form_datedebut_year"]').css("border", "solid #b94a48 1px");
+                $('.dropdown').not('.is-invalid').css("margin-left", "1px")
+
+            }
+            if ($('#conges_form_datefin').hasClass("is-invalid")) {
+                $('#conges_form_datefin').css({"border-color": "white", "background-image": "none"});
+                $('[data-id="conges_form_datefin_day"]').css("border", "solid #b94a48 1px");
+                $('[data-id="conges_form_datefin_month"]').css("border", "solid #b94a48 1px");
+                $('[data-id="conges_form_datefin_year"]').css("border", "solid #b94a48 1px");
+                $('.dropdown').not('.is-invalid').css("margin-left", "1px")
+            }
+        });
+    </script>
+        <!-- FullCalendar  -->
+    <script>
+        $(document).ready(function () {
+            let calendarEl = document.getElementById('calendar-holder');
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'fr',
+                initialView: 'dayGridMonth',
+                aspectRatio: 2.3,
+                displayEventTime : false,
+                showNonCurrentDates: false,
+                fixedWeekCount: false,
+                weekends: true,
+                firstDay: 1,
+                dayHeaderFormat: { weekday: 'long' },
+                eventSources: [
+                    {
+                        url: "/fc-load-events",
+                        method: "POST",
+                        extraParams: {
+                            filters: JSON.stringify({})
+                        },
+                        failure: () => {
+                            alert("Erreur lors du chargement du calendrier");
+                        },
+                    },
+                ],
+                headerToolbar: {
+                    start: 'prev,next today prevYear,nextYear',
+                    center: 'title',
+                    end: 'dayGridMonth,listMonth',
+                },
+                buttonText: {
+                    today:    "Aujourd'hui",
+                    month:    'Mois',
+                    week:     'Semaine',
+                    day:      'Jour',
+                    list:     'Liste'
+                },
+                timeZone: 'UTC',
+            });
+            calendar.render();
+        });
+    </script>
+{% endblock %}
+
 {% block contentpage %}
     <div>
         <a style="background-color: {{ app.user.color }}; border-color: {{ app.user.color }}" class="btn btn-primary" href="{{ path('app_salarie_modif_couleur',{"id":app.user.id}) }}">
