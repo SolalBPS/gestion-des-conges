@@ -59,8 +59,10 @@
                                                     Responsable RH,
                                                 {% elseif value == 'ROLE_RESPONSABLE_SERVICE' %}
                                                     Responsable de service,
-                                                {% else %}
+                                                {% elseif value == 'ROLE_SALARIE' %}
                                                     Salarié
+                                                {% else %}
+
                                                 {% endif %}
                                             {% endfor %}
                                         </td>

@@ -1,4 +1,3 @@
-
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -9,9 +8,6 @@
 /vendor/
 ###< symfony/framework-bundle ###
 /public/images
-###> liip/imagine-bundle ###
-/public/media/cache/
-###< liip/imagine-bundle ###
 ###> phpstorm project files ###
 /.idea/
 ###< phpstorm project files ###

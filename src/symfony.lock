@@ -105,9 +105,6 @@
     "gedmo/doctrine-extensions": {
         "version": "v2.4.41"
     },
-    "imagine/imagine": {
-        "version": "1.2.3"
-    },
     "knplabs/knp-components": {
         "version": "v2.3.6"
     },
@@ -123,27 +120,11 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.4"
     },
-    "liip/imagine-bundle": {
-        "version": "1.8",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "1.8",
-            "ref": "1d42bc3f713130582e6e0c475c49bc327ab0a2a2"
-        },
-        "files": [
-            "./config/packages/liip_imagine.yaml",
-            "./config/routes/liip_imagine.yaml"
-        ]
-    },
     "mistic100/randomcolor": {
         "version": "1.0.4"
     },
     "monolog/monolog": {
         "version": "2.1.0"
-    },
-    "nesbot/carbon": {
-        "version": "2.49.0"
     },
     "nikic/php-parser": {
         "version": "v4.5.0"
@@ -186,12 +167,6 @@
     },
     "spatie/calendar-links": {
         "version": "1.6.0"
-    },
-    "spatie/enum": {
-        "version": "3.9.0"
-    },
-    "spatie/icalendar-generator": {
-        "version": "2.2.0"
     },
     "stof/doctrine-extensions-bundle": {
         "version": "1.2",
@@ -400,9 +375,6 @@
     },
     "symfony/polyfill-php80": {
         "version": "v1.17.0"
-    },
-    "symfony/process": {
-        "version": "v5.1.1"
     },
     "symfony/profiler-pack": {
         "version": "v1.0.4"
