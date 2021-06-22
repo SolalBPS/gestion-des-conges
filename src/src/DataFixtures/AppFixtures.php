@@ -44,19 +44,6 @@ class AppFixtures extends Fixture
             }
         }
 
-        $user = new User();
-        if (!$manager->find(User::class, 1)) {
-            $user->setUsername('admin');
-            $user->setRoles(["ROLE_RESPONSABLE_RH"]);
-            $user->setPassword($this->encoder->encodePassword($user, 'admin'));
-            $user->setNomComplet('Admin');
-            $user->setEmail('admin@example.com');
-            $user->setAdmin(true);
-            $manager->persist($user);
-
-            $manager->flush();
-        }
-
         $service = new Service();
         if (!$manager->getRepository(Service::class)->findOneBy(["nom" => "Ressources humaines"])) {
             $service->setNom("Ressources humaines");
@@ -93,7 +80,7 @@ class AppFixtures extends Fixture
         $Salarie = new Salarie();
         if (!$manager->find(Salarie::class, 1)) {
             $Salarie->setNom('Lartaud');
-            $Salarie->setPrenom('Jérôme');
+            $Salarie->setPrenom('Jerome');
             $Salarie->setRoles(["ROLE_RESPONSABLE_SERVICE","ROLE_SALARIE"]);
             $Salarie->setPassword($this->encoder->encodePassword($Salarie, 'webmanager'));
             $Salarie->setEmail('web.manager@delko.com');

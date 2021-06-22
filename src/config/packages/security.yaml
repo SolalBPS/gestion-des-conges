@@ -1,7 +1,5 @@
 security:
     encoders:
-        App\Entity\User:
-            algorithm: auto
         App\Entity\Salarie:
             algorithm: auto
 
