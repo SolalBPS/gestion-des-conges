@@ -36,5 +36,6 @@ security:
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/initialisation-compte, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/conges/demande/, roles: ROLE_RESPONSABLE_SERVICE }
         - { path: ^/, roles: ROLE_SALARIE }
 

@@ -42,7 +42,6 @@ class CongesController extends AbstractController
     public function demandeConges(Request $request){
         $form = $this->createForm(CongesFormType::class);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->congesHelper->demandeNotifConges($form);
             return $this->redirectToRoute("app_conges");
