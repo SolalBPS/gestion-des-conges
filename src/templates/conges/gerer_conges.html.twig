@@ -13,10 +13,8 @@
 {% block contentpage %}
     <div class="">
         <div class="clearfix"></div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="x_panel" style="display: flex; flex-direction: column; font-size: 16px">
-                    <div style="display: flex; flex-direction: column; align-items: center" class="x_title">
+                <div style="display: flex; flex-direction: column; font-size: 16px">
+                    <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 0" class="x_title">
                         <h2 style="font-size: 25px" >
                             Demande de congés
                         </h2>
@@ -29,7 +27,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div style="display: flex; flex-direction: column; align-items: center" class="x_content">
-                        <table style="width: auto; margin: 1rem" id="example" class="display table table-striped table-bordered">
+                        <table style="width: auto; margin: 3rem" id="example" class="display table table-striped table-bordered">
                             <tbody>
                             <tr>
                                 <th style="width: 20%"> Nature : </th>
@@ -42,39 +40,34 @@
                                 </tr>
                             {% endif %}
                             <tr>
-                                <th> Dates : </th>
+                                <th> Date de début : </th>
                                 <td style="vertical-align: middle; text-align: center">
-                                    <strong> Début : </strong> &nbsp; {{ demande.datedebut | date("d / m / Y") }}, &nbsp; ({{ demande.typedatedebut }})
-                                    <br />
-                                    <strong> Fin : </strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ demande.datefin | date("d / m / Y") }}, &nbsp; ({{ demande.typedatefin }})
+                                    {{ demande.datedebut | date("d / m / Y") }} &nbsp; ({{ demande.typedatedebut }})
                                 </td>
                             </tr>
                             <tr>
-                                <th> État : </th>
-                                <td style="vertical-align: middle; text-align: center; background-color: {{ color }}">{{ demande.etat }}</td>
-                            </tr>
-                            <tr>
-                                <th> Décision : </th>
-                                <td style="text-align: center">
-                                    <a class="btn btn-success" title="Valider la demande" onclick="return confirm('Êtes vous sûr de vouloir accepter la demande ?\nVous ne pourrez pas revenir sur votre décision.')" href="{{ path('app_conges_valider', {id: demande.id, userId: demande.userId}) }}">
-                                        <i class="fa fa-check"></i>
-                                    </a>
-                                    <a class="btn btn-danger" title="Refuser la demande" onclick="return confirm('Êtes vous sûr de vouloir refuser la demande ?\nVous ne pourrez pas revenir sur votre décision.')" href="{{ path('app_conges_refuser', {id: demande.id, userId: demande.userId}) }}">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                    <a class="btn btn-warning" title="Laisser en attente" onclick="return confirm('Êtes vous sûr de vouloir laisser la demande en attente pour l&#145;instant ?\nVous pourrez toujours revenir prendre votre décision en cliquant une nouvelle fois sur le lien que vous avez reçu par mail.')" href="{{ path('app_conges_attente', {id: demande.id, userId: demande.userId}) }}">
-                                        <i class="fa fa-question-circle"></i>
-                                    </a>
+                                <th> Date de fin : </th>
+                                <td style="vertical-align: middle; text-align: center">
+                                    {{ demande.datefin | date("d / m / Y") }} &nbsp; ({{ demande.typedatefin }})
                                 </td>
                             </tr>
                             </tbody>
                         </table>
-                        <a style="width: 8%" class="btn btn-primary" href="{{ path('app_home') }}">
-                            Accueil
-                        </a>
+                        <div style="display: flex; flex-direction: row">
+                            <a class="btn btn-success" title="Valider la demande" onclick="return confirm('Êtes vous sûr de vouloir accepter la demande ?\nVous ne pourrez pas revenir sur votre décision.')" href="{{ path('app_conges_valider', {id: demande.id, userId: demande.userId}) }}">
+                                <i class="fa fa-check"></i>
+                                Valider
+                            </a>
+                            <a class="btn btn-danger" title="Refuser la demande" onclick="return confirm('Êtes vous sûr de vouloir refuser la demande ?\nVous ne pourrez pas revenir sur votre décision.')" href="{{ path('app_conges_refuser', {id: demande.id, userId: demande.userId}) }}">
+                                <i class="fa fa-times"></i>
+                                Refuser
+                            </a>
+                            <a class="btn btn-warning" title="Laisser en attente" onclick="return confirm('Êtes vous sûr de vouloir laisser la demande en attente pour l&#145;instant ?\nVous pourrez toujours revenir prendre votre décision en cliquant une nouvelle fois sur le lien que vous avez reçu par mail.')" href="{{ path('app_conges_attente', {id: demande.id, userId: demande.userId}) }}">
+                                <i class="fa fa-question-circle"></i>
+                                En attente
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 {% endblock %}
