@@ -63,15 +63,17 @@ class ServiceController extends AbstractController
         $form = $this->createForm(ServiceFormType::class);
         $form->get('nom')->setData($service->getNom());
         $form->handleRequest($request);
+        $servicecheck = $this->serviceRepository->findOneBy(["nom" => $form["nom"]->getData()]);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form["nom"]->getData() == $service->getNom()) {
-                $service->setNom($form["nom"]->getData());
-                $this->entityManager->persist($service);
-                $this->entityManager->flush();
-                $this->addFlash("success", "Service modifié");
+            if ($servicecheck && $servicecheck->getId() !== $service->getId()) {
+                $this->addFlash("error", "Ce service existe déjà");
                 return $this->redirectToRoute("app_service");
             }
-            $this->addFlash("error", "Ce service existe déjà");
+            $service->setNom($form["nom"]->getData());
+            $this->entityManager->persist($service);
+            $this->entityManager->flush();
+            $this->addFlash("success", "Service modifié");
+            return $this->redirectToRoute("app_service");
         }
         return $this->render("service/modifservice.html.twig", ["serviceForm" => $form->createView()]);
     }
