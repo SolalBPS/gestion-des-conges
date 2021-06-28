@@ -35,59 +35,50 @@ class AppFixtures extends Fixture
         ];
 
         foreach ($roles as $key => $value) {
-            if (!$manager->getRepository(Role::class)->findByRoleName([$key])) {
                 $role = new Role();
                 $role->setRoleName($key);
                 $role->setLibelle($value);
                 $manager->persist($role);
                 $manager->flush();
-            }
         }
 
         $service = new Service();
-        if (!$manager->getRepository(Service::class)->findOneBy(["nom" => "Ressources humaines"])) {
-            $service->setNom("Ressources humaines");
-            $manager->persist($service);
-            $manager->flush();
-        }
+        $service->setNom("Ressources humaines");
+        $manager->persist($service);
+        $manager->flush();
 
-        $Salarie = new Salarie();
-        if (!$manager->find(Salarie::class, 1)) {
-            $Salarie->setNom('Jost');
-            $Salarie->setPrenom('Elisa');
-            $Salarie->setRoles(["ROLE_RESPONSABLE_RH", "ROLE_RESPONSABLE_SERVICE", "ROLE_SALARIE"]);
-            $Salarie->setPassword($this->encoder->encodePassword($Salarie, 'admin'));
-            $Salarie->setEmail('rh@delko.com');
-            $Salarie->setTelephone(null);
-            $Salarie->setService('Ressources humaines');
-            $manager->persist($Salarie);
-            $manager->flush();
-        }
+        $service = new Service();
+        $service->setNom("Développement digital");
+        $manager->persist($service);
+        $manager->flush();
 
-        $Salarie = new Salarie();
-        if (!$manager->find(Salarie::class, 1)) {
-            $Salarie->setNom('Bompais');
-            $Salarie->setPrenom('Solal');
-            $Salarie->setRoles(["ROLE_SALARIE"]);
-            $Salarie->setPassword($this->encoder->encodePassword($Salarie, 'solal'));
-            $Salarie->setEmail('bompais.solal@gmail.com');
-            $Salarie->setTelephone(null);
-            $Salarie->setService('Développement web');
-            $manager->persist($Salarie);
-            $manager->flush();
-        }
+        $service = new Service();
+        $service->setNom("Marketing");
+        $manager->persist($service);
+        $manager->flush();
 
-        $Salarie = new Salarie();
-        if (!$manager->find(Salarie::class, 1)) {
-            $Salarie->setNom('Lartaud');
-            $Salarie->setPrenom('Jerome');
-            $Salarie->setRoles(["ROLE_RESPONSABLE_SERVICE","ROLE_SALARIE"]);
-            $Salarie->setPassword($this->encoder->encodePassword($Salarie, 'webmanager'));
-            $Salarie->setEmail('web.manager@delko.com');
-            $Salarie->setTelephone(null);
-            $Salarie->setService('Développement web');
-            $manager->persist($Salarie);
-            $manager->flush();
-        }
+        $salarie = new Salarie();
+        $salarie->setNom('RH');
+        $salarie->setPrenom('Responsable');
+        $salarie->setRoles(["ROLE_RESPONSABLE_RH", "ROLE_RESPONSABLE_SERVICE", "ROLE_SALARIE"]);
+        $salarie->setPassword($this->encoder->encodePassword($salarie, 'admin'));
+        $salarie->setEmail('rh@delko.fr');
+        $salarie->setTelephone(null);
+        $salarie->setService('Ressources humaines');
+        $salarie->setColor("#087f48");
+        $manager->persist($salarie);
+        $manager->flush();
+
+        $salarie = new Salarie();
+        $salarie->setNom('Service');
+        $salarie->setPrenom('Responsable');
+        $salarie->setRoles(["ROLE_RESPONSABLE_SERVICE","ROLE_SALARIE"]);
+        $salarie->setPassword($this->encoder->encodePassword($salarie, 'responsable'));
+        $salarie->setEmail('resp@delko.fr');
+        $salarie->setTelephone(null);
+        $salarie->setService('Développement digital');
+        $salarie->setColor("#c1950f");
+        $manager->persist($salarie);
+        $manager->flush();
     }
 }

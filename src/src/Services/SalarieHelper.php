@@ -128,9 +128,11 @@ class SalarieHelper extends AbstractController
                 return true;
             } else {
                 $this->addFlash("error", $respcheck->getPrenom() . " " . $respcheck->getNom() . " est déjà défini(e) comme étant le/la responsable de ce service");
+                return false;
             }
         } else {
             $this->addFlash("error", $rhcheck->getPrenom() . " " . $rhcheck->getNom() . " est déjà défini(e) comme étant le/la responsable RH");
+            return false;
         }
     }
 
